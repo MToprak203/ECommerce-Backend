@@ -4,13 +4,14 @@ import com.sonmez.dtos.ProductDto;
 import com.sonmez.dtos.mappers.Mapper;
 import com.sonmez.entities.ProductEntity;
 import com.sonmez.services.ProductService;
+import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 public class ProductController {
@@ -24,7 +25,7 @@ public class ProductController {
     }
 
     @PostMapping(path = "/products")
-    public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto)
+    public ResponseEntity<ProductDto> createProduct(@Valid @RequestBody ProductDto productDto)
     {
         ProductEntity productEntity = productMapper.mapFrom(productDto);
         ProductEntity savedProductEntity = productService.save(productEntity);
@@ -32,15 +33,10 @@ public class ProductController {
     }
 
     @GetMapping(path = "/products")
-    public ResponseEntity<List<ProductDto>> listProducts()
+    public ResponseEntity<Page<ProductDto>> listProducts(Pageable pageable)
     {
-        List<ProductEntity> productEntities = productService.findAll();
-        return new ResponseEntity<>(
-                productEntities.stream()
-                        .map(productMapper::mapTo)
-                        .collect(Collectors.toList()),
-                HttpStatus.OK
-        );
+        Page<ProductEntity> productEntities = productService.findAll(pageable);
+        return new ResponseEntity<>(productEntities.map(productMapper::mapTo), HttpStatus.OK);
     }
 
     @GetMapping(path = "/products/{id}")
@@ -54,7 +50,7 @@ public class ProductController {
     }
 
     @PutMapping(path = "products/{id}")
-    public ResponseEntity<ProductDto> updateProduct(@PathVariable("id") Long id, @RequestBody ProductDto productDto)
+    public ResponseEntity<ProductDto> updateProduct(@PathVariable("id") Long id, @Valid @RequestBody ProductDto productDto)
     {
         if (productService.isExists(id)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
@@ -65,16 +61,6 @@ public class ProductController {
                 productMapper.mapTo(savedProductEntity),
                 HttpStatus.OK
         );
-    }
-
-    @PatchMapping(path = "products/{id}")
-    public ResponseEntity<ProductDto> partialUpdate(@PathVariable("id") Long id, @RequestBody ProductDto productDto)
-    {
-        if (productService.isExists(id)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-        ProductEntity productEntity = productMapper.mapFrom(productDto);
-        ProductEntity updatedProduct =  productService.partialUpdate(id, productEntity);
-        return new ResponseEntity<>(productMapper.mapTo(updatedProduct), HttpStatus.OK);
     }
 
     @DeleteMapping(path = "products/{id}")

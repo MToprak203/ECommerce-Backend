@@ -3,6 +3,8 @@ package com.sonmez.services.impl;
 import com.sonmez.entities.ProductEntity;
 import com.sonmez.repositories.ProductRepository;
 import com.sonmez.services.ProductService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,6 +36,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Page<ProductEntity> findAll(Pageable pageable) {
+        return productRepository.findAll(pageable);
+    }
+
+    @Override
     public Optional<ProductEntity> findOne(Long id) {
         return productRepository.findById(id);
     }
@@ -41,25 +48,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public boolean isExists(Long id) {
         return !productRepository.existsById(id);
-    }
-
-    @Override
-    public ProductEntity partialUpdate(Long id, ProductEntity productEntity) {
-        productEntity.setId(id);
-
-        return productRepository.findById(id).map(existingProduct -> {
-            Optional.ofNullable(productEntity.getName()).ifPresent(existingProduct::setName);
-            Optional.ofNullable(productEntity.getDescription()).ifPresent(existingProduct::setDescription);
-            Optional.ofNullable(productEntity.getBarcode()).ifPresent(existingProduct::setBarcode);
-            Optional.ofNullable(productEntity.getModelCode()).ifPresent(existingProduct::setModelCode);
-            Optional.ofNullable(productEntity.getPrice()).ifPresent(existingProduct::setPrice);
-            Optional.ofNullable(productEntity.getStock()).ifPresent(existingProduct::setStock);
-            Optional.ofNullable(productEntity.getImages()).ifPresent(images -> {
-                existingProduct.getImages().clear();
-                existingProduct.getImages().addAll(images);
-            });
-            return productRepository.save(existingProduct);
-        }).orElseThrow(() -> new RuntimeException("Product does not exists"));
     }
 
     @Override

@@ -20,6 +20,7 @@ public final class TestDataUtil {
                 .barcode("product1 barcode")
                 .modelCode("product1 modelcode")
                 .price(BigDecimal.valueOf(1000.15).setScale(2))
+                .images(new ArrayList<>())
                 .build();
     }
 
@@ -32,6 +33,7 @@ public final class TestDataUtil {
                 .barcode("product2 barcode")
                 .modelCode("product2 modelcode")
                 .price(BigDecimal.valueOf(2000.15).setScale(2))
+                .images(new ArrayList<>())
                 .build();
     }
 
@@ -44,6 +46,7 @@ public final class TestDataUtil {
                 .barcode("product3 barcode")
                 .modelCode("product3 modelcode")
                 .price(BigDecimal.valueOf(3000.15).setScale(2))
+                .images(new ArrayList<>())
                 .build();
     }
 

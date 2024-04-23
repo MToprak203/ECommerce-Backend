@@ -11,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -209,7 +210,7 @@ public class ProductControllerIntegrationTests {
     @Test
     public void testThatProductReturnsHttpStatus400WhenProductNotFoundWhileUpdating() throws Exception {
         ProductEntity productEntity1 = TestDataUtil.createTestProduct1();
-        ProductEntity savedProduct = productService.save(productEntity1);
+        productService.save(productEntity1);
 
         ProductDto productDto1 = TestDataUtil.createTestProductDto1();
         String productDtoJson = objectMapper.writeValueAsString(productDto1);
@@ -258,6 +259,43 @@ public class ProductControllerIntegrationTests {
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isNoContent()
+        );
+    }
+
+    @Test
+    public void testThatPageReturnsCorrectAmountOfProducts() throws Exception {
+        for(int i = 0; i < 50; i++)
+        {
+            ProductEntity productEntity1 = TestDataUtil.createTestProduct1();
+            productEntity1.setId(null);
+            productService.save(productEntity1);
+        }
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/products")
+                        .param("page", "0")
+                        .param("size", "10")
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(
+                                MockMvcResultMatchers.status().isOk()
+                        ).andExpect(
+                                MockMvcResultMatchers.jsonPath("$.content").isArray()
+                        ).andExpect(
+                                MockMvcResultMatchers.jsonPath("$.content.length()").value(10)
+                );
+    }
+
+    @Test
+    public void testThatPatchReturnsHttpStatus404IfProductNotFound() throws Exception {
+        ProductDto productDto1 = TestDataUtil.createTestProductDto1();
+        String productDtoJson = objectMapper.writeValueAsString(productDto1);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.patch("/products/" + 99)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(productDtoJson)
+        ).andExpect(
+                MockMvcResultMatchers.status().isNotFound()
         );
     }
 }
