@@ -1,8 +1,7 @@
-package com.sonmez.services.impl;
+package com.sonmez.services.product;
 
-import com.sonmez.entities.ProductEntity;
+import com.sonmez.entities.product.ProductEntity;
 import com.sonmez.repositories.ProductRepository;
-import com.sonmez.services.ProductService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

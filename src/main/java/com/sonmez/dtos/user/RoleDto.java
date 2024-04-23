@@ -1,4 +1,4 @@
-package com.sonmez.dtos;
+package com.sonmez.dtos.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProductImageDto {
-
+public class RoleDto {
     private Long id;
-
-    private String imageUrl;
+    private String role;
 }

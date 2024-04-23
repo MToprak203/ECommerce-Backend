@@ -1,8 +1,8 @@
 package com.sonmez;
 
-import com.sonmez.dtos.ProductDto;
-import com.sonmez.entities.ProductEntity;
-import com.sonmez.entities.ProductImageEntity;
+import com.sonmez.dtos.product.ProductDto;
+import com.sonmez.entities.product.ProductEntity;
+import com.sonmez.entities.product.ProductImageEntity;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

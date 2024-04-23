@@ -1,10 +1,10 @@
-package com.sonmez.dtos.mappers.impl;
+package com.sonmez.dtos.mappers.impl.product;
 
-import com.sonmez.dtos.ProductDto;
-import com.sonmez.dtos.ProductImageDto;
+import com.sonmez.dtos.product.ProductDto;
+import com.sonmez.dtos.product.ProductImageDto;
 import com.sonmez.dtos.mappers.Mapper;
-import com.sonmez.entities.ProductEntity;
-import com.sonmez.entities.ProductImageEntity;
+import com.sonmez.entities.product.ProductEntity;
+import com.sonmez.entities.product.ProductImageEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +26,7 @@ public class ProductMapperImpl extends Mapper<ProductEntity, ProductDto> {
     public ProductDto mapTo(ProductEntity productEntity) {
         ProductDto mapped = modelMapper.map(productEntity, ProductDto.class);
 
-        if (mapped.getImages() != null)
+        if (productEntity.getImages() != null)
         {
             mapped.setImages(productEntity
                     .getImages()
@@ -43,7 +43,7 @@ public class ProductMapperImpl extends Mapper<ProductEntity, ProductDto> {
     public ProductEntity mapFrom(ProductDto productDto) {
         ProductEntity mapped = modelMapper.map(productDto, ProductEntity.class);
 
-        if (mapped.getImages() != null)
+        if (productDto.getImages() != null)
         {
             mapped.setImages(productDto
                     .getImages()

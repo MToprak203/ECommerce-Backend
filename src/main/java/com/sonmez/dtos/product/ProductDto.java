@@ -1,4 +1,4 @@
-package com.sonmez.dtos;
+package com.sonmez.dtos.product;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

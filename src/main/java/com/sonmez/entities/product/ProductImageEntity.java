@@ -1,4 +1,4 @@
-package com.sonmez.entities;
+package com.sonmez.entities.product;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

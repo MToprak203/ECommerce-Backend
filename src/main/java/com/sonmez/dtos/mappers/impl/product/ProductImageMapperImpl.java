@@ -1,8 +1,8 @@
-package com.sonmez.dtos.mappers.impl;
+package com.sonmez.dtos.mappers.impl.product;
 
-import com.sonmez.dtos.ProductImageDto;
+import com.sonmez.dtos.product.ProductImageDto;
 import com.sonmez.dtos.mappers.Mapper;
-import com.sonmez.entities.ProductImageEntity;
+import com.sonmez.entities.product.ProductImageEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 

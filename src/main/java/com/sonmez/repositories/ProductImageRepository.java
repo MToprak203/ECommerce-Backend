@@ -1,6 +1,6 @@
 package com.sonmez.repositories;
 
-import com.sonmez.entities.ProductImageEntity;
+import com.sonmez.entities.product.ProductImageEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

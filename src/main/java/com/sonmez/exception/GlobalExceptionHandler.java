@@ -26,4 +26,11 @@ public class GlobalExceptionHandler {
 
         return errors;
     }
+
+    @ExceptionHandler(RuntimeException.class)
+    public Map<String, String> handleValidationExceptions(RuntimeException ex) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("errorMessage", ex.getMessage());
+        return errors;
+    }
 }
