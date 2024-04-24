@@ -26,6 +26,7 @@ public class ProductEntity {
 
     private String description;
 
+    @Column(unique = true)
     private String barcode;
 
     private String modelCode;

@@ -10,5 +10,6 @@ public interface UserRepository extends
         CrudRepository<UserEntity, Long>,
         PagingAndSortingRepository<UserEntity, Long> {
 
-    Optional<UserEntity> findByEmailAndPassword(String email, String password);
+    Optional<UserEntity> findByEmail(String email);
+    boolean existsByEmail(String email);
 }

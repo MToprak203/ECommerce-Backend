@@ -21,6 +21,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.math.BigDecimal;
+
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
@@ -47,12 +49,11 @@ public class ProductControllerIntegrationTests {
 
     @Test
     public void createProductTest() throws Exception {
-        ProductEntity product = TestDataUtil.createTestProduct1();
-        ProductImageEntity image = TestDataUtil.createTestProductImage1();
-        ProductFAQEntity faq = TestDataUtil.createTestProductFAQ1();
+        ProductEntity product = TestDataUtil.createTestProduct();
+        ProductImageEntity image = TestDataUtil.createTestProductImage();
+        ProductFAQEntity faq = TestDataUtil.createTestProductFAQ();
         product.getImages().add(image);
         product.getFaqs().add(faq);
-        productService.save(product);
 
         ProductDto productDto = productMapper.mapTo(product);
         String productDtoJson = objectMapper.writeValueAsString(productDto);
@@ -88,70 +89,76 @@ public class ProductControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.faqs[0].answer").value(product.getFaqs().get(0).getAnswer())
         );
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/products")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(productDtoJson)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.errorMessage")
+                        .value("Product exists with product barcode barcode")
+        );
     }
 
     @Test
     public void listProductsTest() throws Exception {
-        for (int i = 0; i < 11; i++)
+        for (int i = 0; i < 5; i++)
         {
-            ProductEntity product = TestDataUtil.createTestProduct1();
+            ProductEntity product = TestDataUtil.createTestProduct();
             product.setId(null);
-            ProductImageEntity image = TestDataUtil.createTestProductImage1();
+            product.setBarcode(String.valueOf(i));
+            ProductImageEntity image = TestDataUtil.createTestProductImage();
             image.setId(null);
             image.setProduct(product);
-            ProductFAQEntity faq = TestDataUtil.createTestProductFAQ1();
+            ProductFAQEntity faq = TestDataUtil.createTestProductFAQ();
             faq.setId(null);
             faq.setProduct(product);
             product.getImages().add(image);
             product.getFaqs().add(faq);
-            productService.save(product);
+            productService.create(product);
         }
-
-        ProductEntity product = TestDataUtil.createTestProduct1();
-        ProductImageEntity image = TestDataUtil.createTestProductImage1();
-        ProductFAQEntity faq = TestDataUtil.createTestProductFAQ1();
-        product.getImages().add(image);
-        product.getFaqs().add(faq);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/products")
                         .param("page", "0")
-                        .param("size", "10")
+                        .param("size", "4")
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isOk()
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.content.length()").value(10)
+                MockMvcResultMatchers.jsonPath("$.content.length()").value(4)
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.content[0].id").isNumber()
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.content[0].name").value(product.getName())
+                MockMvcResultMatchers.jsonPath("$.content[0].name").value("product")
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.content[0].description").value(product.getDescription())
+                MockMvcResultMatchers.jsonPath("$.content[0].description").value("product description")
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.content[0].barcode").value(product.getBarcode())
+                MockMvcResultMatchers.jsonPath("$.content[0].barcode").value(0)
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.content[0].modelCode").value(product.getModelCode())
+                MockMvcResultMatchers.jsonPath("$.content[0].modelCode").value("product modelcode")
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.content[0].price").value(product.getPrice())
+                MockMvcResultMatchers.jsonPath("$.content[0].price").value(BigDecimal.valueOf(1000.15).setScale(2))
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.content[0].stock").value(product.getStock())
+                MockMvcResultMatchers.jsonPath("$.content[0].stock").value(10)
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.content[0].images[0].id").isNumber()
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.content[0].images[0].imageUrl").value(product.getImages().get(0).getImageUrl())
+                MockMvcResultMatchers.jsonPath("$.content[0].images[0].imageUrl").value("imageUrl")
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.content[0].faqs[0].id").isNumber()
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.content[0].faqs[0].question").value(product.getFaqs().get(0).getQuestion())
+                MockMvcResultMatchers.jsonPath("$.content[0].faqs[0].question").value("question")
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.content[0].faqs[0].answer").value(product.getFaqs().get(0).getAnswer())
+                MockMvcResultMatchers.jsonPath("$.content[0].faqs[0].answer").value("answer")
         );
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/products")
                         .param("page", "1")
-                        .param("size", "10")
+                        .param("size", "4")
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isOk()
@@ -162,14 +169,14 @@ public class ProductControllerIntegrationTests {
 
     @Test
     public void getProductTest() throws Exception {
-        ProductEntity product = TestDataUtil.createTestProduct1();
-        ProductImageEntity image = TestDataUtil.createTestProductImage1();
+        ProductEntity product = TestDataUtil.createTestProduct();
+        ProductImageEntity image = TestDataUtil.createTestProductImage();
         image.setProduct(product);
-        ProductFAQEntity faq = TestDataUtil.createTestProductFAQ1();
+        ProductFAQEntity faq = TestDataUtil.createTestProductFAQ();
         faq.setProduct(product);
         product.getImages().add(image);
         product.getFaqs().add(faq);
-        productService.save(product);
+        productService.create(product);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/products/" + product.getId())
@@ -212,12 +219,11 @@ public class ProductControllerIntegrationTests {
 
     @Test
     public void updateProductTest() throws Exception {
-        ProductEntity product = TestDataUtil.createTestProduct1();
-        productService.save(product);
+        ProductEntity product = TestDataUtil.createTestProduct();
+        productService.create(product);
 
         ProductDto productDto = productMapper.mapTo(product);
         productDto.setName("test");
-
         String productDtoJson = objectMapper.writeValueAsString(productDto);
 
         mockMvc.perform(
@@ -241,8 +247,8 @@ public class ProductControllerIntegrationTests {
 
     @Test
     public void deleteProductTest() throws Exception {
-        ProductEntity product = TestDataUtil.createTestProduct1();
-        productService.save(product);
+        ProductEntity product = TestDataUtil.createTestProduct();
+        productService.create(product);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.delete("/products/" + product.getId())
@@ -258,4 +264,6 @@ public class ProductControllerIntegrationTests {
                 MockMvcResultMatchers.status().isNoContent()
         );
     }
+
+
 }

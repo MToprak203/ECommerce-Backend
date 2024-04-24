@@ -1,7 +1,24 @@
 package com.sonmez.services.product;
 
 import com.sonmez.entities.product.ProductEntity;
-import com.sonmez.services.CrudService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-public interface ProductService extends CrudService<ProductEntity> {
+import java.util.List;
+import java.util.Optional;
+
+public interface ProductService{
+    ProductEntity create(ProductEntity product);
+
+    ProductEntity update(ProductEntity product);
+
+    List<ProductEntity> findAll();
+
+    Page<ProductEntity> findAll(Pageable pageable);
+
+    Optional<ProductEntity> findOne(Long id);
+
+    boolean isExists(Long id);
+
+    void delete(Long id);
 }

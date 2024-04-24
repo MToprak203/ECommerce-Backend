@@ -29,7 +29,7 @@ public class ProductController {
     public ResponseEntity<ProductDto> createProduct(@Valid @RequestBody ProductDto productDto)
     {
         ProductEntity productEntity = productMapper.mapFrom(productDto);
-        ProductEntity savedProductEntity = productService.save(productEntity);
+        ProductEntity savedProductEntity = productService.create(productEntity);
         return new ResponseEntity<>(productMapper.mapTo(savedProductEntity), HttpStatus.CREATED);
     }
 
@@ -53,11 +53,11 @@ public class ProductController {
     @PutMapping(path = "/{id}")
     public ResponseEntity<ProductDto> updateProduct(@PathVariable("id") Long id, @Valid @RequestBody ProductDto productDto)
     {
-        if (productService.isExists(id)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (!productService.isExists(id)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         productDto.setId(id);
         ProductEntity productEntity = productMapper.mapFrom(productDto);
-        ProductEntity savedProductEntity = productService.save(productEntity);
+        ProductEntity savedProductEntity = productService.update(productEntity);
         return new ResponseEntity<>(productMapper.mapTo(savedProductEntity), HttpStatus.OK);
     }
 

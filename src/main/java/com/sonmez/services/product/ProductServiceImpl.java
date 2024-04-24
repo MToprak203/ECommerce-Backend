@@ -1,6 +1,7 @@
 package com.sonmez.services.product;
 
 import com.sonmez.entities.product.ProductEntity;
+import com.sonmez.exception.product.ProductExistsException;
 import com.sonmez.repositories.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +22,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductEntity save(ProductEntity product) {
+    public ProductEntity create(ProductEntity product) {
+        if (productRepository.existsByBarcode(product.getBarcode()))
+        {
+            throw new ProductExistsException(product.getBarcode());
+        }
+        return productRepository.save(product);
+    }
+
+    @Override
+    public ProductEntity update(ProductEntity product) {
         return productRepository.save(product);
     }
 
@@ -46,7 +56,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public boolean isExists(Long id) {
-        return !productRepository.existsById(id);
+        return productRepository.existsById(id);
     }
 
     @Override

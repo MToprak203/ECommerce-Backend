@@ -20,9 +20,9 @@ public class RoleEntity {
     @Column(name="id", nullable=false, updatable=false)
     private Long id;
 
+    private String role;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
-
-    private String role;
 }

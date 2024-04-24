@@ -5,7 +5,6 @@ import com.sonmez.dtos.user.UserDto;
 import com.sonmez.dtos.user.UserLoginDto;
 import com.sonmez.dtos.user.UserRegisterDto;
 import com.sonmez.entities.user.UserEntity;
-import com.sonmez.exception.UserNotFoundException;
 import com.sonmez.services.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -36,16 +35,15 @@ public class UserController {
     public ResponseEntity<UserDto> registerUser(@Valid @RequestBody UserRegisterDto userRegisterDto)
     {
         UserEntity userEntity = userRegisterMapper.mapFrom(userRegisterDto);
-        UserEntity savedUserEntity = userService.save(userEntity);
+        UserEntity savedUserEntity = userService.register(userEntity);
         return new ResponseEntity<>(userMapper.mapTo(savedUserEntity), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
     public ResponseEntity<UserDto> loginUser(@Valid @RequestBody UserLoginDto userLoginDto)
     {
-        Optional<UserEntity> userOpt = userService.login(userLoginDto);
-        if(userOpt.isEmpty()) throw new UserNotFoundException("User not found!");
-        return new ResponseEntity<>(userMapper.mapTo(userOpt.get()), HttpStatus.OK);
+        UserEntity user = userService.login(userLoginDto);
+        return new ResponseEntity<>(userMapper.mapTo(user), HttpStatus.OK);
     }
 
     @GetMapping
@@ -68,11 +66,11 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<UserDto> updateUser(@PathVariable("id") Long id, @Valid @RequestBody UserDto userDto)
     {
-        if (userService.isExists(id)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (!userService.isExists(id)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         userDto.setId(id);
         UserEntity userEntity = userMapper.mapFrom(userDto);
-        UserEntity savedUserEntity = userService.save(userEntity);
+        UserEntity savedUserEntity = userService.update(userEntity);
         return new ResponseEntity<>(userMapper.mapTo(savedUserEntity), HttpStatus.OK);
     }
 

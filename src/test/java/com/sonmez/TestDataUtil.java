@@ -1,9 +1,14 @@
 package com.sonmez;
 
-import com.sonmez.dtos.product.ProductDto;
+import com.sonmez.dtos.user.UserLoginDto;
+import com.sonmez.dtos.user.UserRegisterDto;
 import com.sonmez.entities.product.ProductEntity;
 import com.sonmez.entities.product.ProductFAQEntity;
 import com.sonmez.entities.product.ProductImageEntity;
+import com.sonmez.entities.user.AddressEntity;
+import com.sonmez.entities.user.UserEntity;
+import com.sonmez.entities.user.role.RoleEntity;
+import com.sonmez.entities.user.role.Roles;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -12,14 +17,14 @@ public final class TestDataUtil {
 
     private TestDataUtil() {}
 
-    public static ProductEntity createTestProduct1()
+    public static ProductEntity createTestProduct()
     {
         return ProductEntity.builder()
                 .id(1L)
-                .name("product1")
-                .description("product1 description")
-                .barcode("product1 barcode")
-                .modelCode("product1 modelcode")
+                .name("product")
+                .description("product description")
+                .barcode("product barcode")
+                .modelCode("product modelcode")
                 .price(BigDecimal.valueOf(1000.15).setScale(2))
                 .stock(10)
                 .images(new ArrayList<>())
@@ -27,84 +32,70 @@ public final class TestDataUtil {
                 .build();
     }
 
-    public static ProductEntity createTestProduct2()
-    {
-        return ProductEntity.builder()
-                .id(2L)
-                .name("product2")
-                .description("product2 description")
-                .barcode("product2 barcode")
-                .modelCode("product2 modelcode")
-                .price(BigDecimal.valueOf(2000.15).setScale(2))
-                .stock(20)
-                .images(new ArrayList<>())
-                .faqs(new ArrayList<>())
-                .build();
-    }
-
-    public static ProductEntity createTestProduct3()
-    {
-        return ProductEntity.builder()
-                .id(3L)
-                .name("product3")
-                .description("product3 description")
-                .barcode("product3 barcode")
-                .modelCode("product3 modelcode")
-                .price(BigDecimal.valueOf(3000.15).setScale(2))
-                .stock(30)
-                .images(new ArrayList<>())
-                .faqs(new ArrayList<>())
-                .build();
-    }
-
-    public static ProductImageEntity createTestProductImage1()
+    public static ProductImageEntity createTestProductImage()
     {
         return ProductImageEntity.builder()
                 .id(1L)
-                .imageUrl("image1Url")
+                .imageUrl("imageUrl")
                 .build();
     }
 
-    public static ProductImageEntity createTestProductImage2()
-    {
-        return ProductImageEntity.builder()
-                .id(2L)
-                .imageUrl("image2Url")
-                .build();
-    }
-
-    public static ProductImageEntity createTestProductImage3()
-    {
-        return ProductImageEntity.builder()
-                .id(3L)
-                .imageUrl("image3Url")
-                .build();
-    }
-
-    public static ProductFAQEntity createTestProductFAQ1()
+    public static ProductFAQEntity createTestProductFAQ()
     {
         return ProductFAQEntity.builder()
                 .id(1L)
-                .question("question1")
-                .answer("answer1")
+                .question("question")
+                .answer("answer")
                 .build();
     }
 
-    public static ProductFAQEntity createTestProductFAQ2()
+    public static UserRegisterDto createTestUserRegisterDto()
     {
-        return ProductFAQEntity.builder()
-                .id(2L)
-                .question("question2")
-                .answer("answer2")
+        return UserRegisterDto.builder()
+                .email("testemail@test.com")
+                .password("asdsfaA15!2")
+                .fullName("testTester")
+                .phoneNumber("+555555555555")
                 .build();
     }
 
-    public static ProductFAQEntity createTestProductFAQ3()
+    public static UserLoginDto createTestUserLoginDto()
     {
-        return ProductFAQEntity.builder()
-                .id(3L)
-                .question("question3")
-                .answer("answer3")
+        return UserLoginDto.builder()
+                .email("testemail@test.com")
+                .password("asdsfaA15!2")
+                .build();
+    }
+
+    public static UserEntity createTestUser()
+    {
+        return UserEntity.builder()
+                .id(1L)
+                .email("testemail@test.com")
+                .fullName("testTester")
+                .password("asdsfaA15!2")
+                .phoneNumber("+555555555555")
+                .addresses(new ArrayList<>())
+                .roles(new ArrayList<>())
+                .build();
+    }
+
+    public static AddressEntity createTestAddress()
+    {
+        return AddressEntity.builder()
+                .id(1L)
+                .address("test address")
+                .district("test district")
+                .city("test city")
+                .country("test country")
+                .build();
+    }
+
+    public static RoleEntity createTestRole()
+    {
+        return RoleEntity.builder()
+                .id(1L)
+                .role(Roles.USER.toString())
                 .build();
     }
 }

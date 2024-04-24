@@ -10,4 +10,5 @@ public interface ProductRepository extends
         CrudRepository<ProductEntity, Long>,
         PagingAndSortingRepository<ProductEntity, Long>
 {
+    boolean existsByBarcode(String barcode);
 }
