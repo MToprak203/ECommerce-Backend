@@ -40,4 +40,6 @@ public class ProductDto {
     private Integer stock;
 
     private List<ProductImageDto> images;
+
+    private List<ProductFAQDto> faqs;
 }

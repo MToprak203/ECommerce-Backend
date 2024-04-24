@@ -2,6 +2,7 @@ package com.sonmez;
 
 import com.sonmez.dtos.product.ProductDto;
 import com.sonmez.entities.product.ProductEntity;
+import com.sonmez.entities.product.ProductFAQEntity;
 import com.sonmez.entities.product.ProductImageEntity;
 
 import java.math.BigDecimal;
@@ -20,7 +21,9 @@ public final class TestDataUtil {
                 .barcode("product1 barcode")
                 .modelCode("product1 modelcode")
                 .price(BigDecimal.valueOf(1000.15).setScale(2))
+                .stock(10)
                 .images(new ArrayList<>())
+                .faqs(new ArrayList<>())
                 .build();
     }
 
@@ -33,7 +36,9 @@ public final class TestDataUtil {
                 .barcode("product2 barcode")
                 .modelCode("product2 modelcode")
                 .price(BigDecimal.valueOf(2000.15).setScale(2))
+                .stock(20)
                 .images(new ArrayList<>())
+                .faqs(new ArrayList<>())
                 .build();
     }
 
@@ -46,20 +51,9 @@ public final class TestDataUtil {
                 .barcode("product3 barcode")
                 .modelCode("product3 modelcode")
                 .price(BigDecimal.valueOf(3000.15).setScale(2))
+                .stock(30)
                 .images(new ArrayList<>())
-                .build();
-    }
-
-    public static ProductDto createTestProductDto1()
-    {
-        return ProductDto.builder()
-                .id(1L)
-                .name("product1 dto")
-                .description("product1 dto description")
-                .barcode("product1 dto barcode")
-                .modelCode("product1 dto modelcode")
-                .price(BigDecimal.valueOf(1000.15).setScale(2))
-                .images(new ArrayList<>())
+                .faqs(new ArrayList<>())
                 .build();
     }
 
@@ -84,6 +78,33 @@ public final class TestDataUtil {
         return ProductImageEntity.builder()
                 .id(3L)
                 .imageUrl("image3Url")
+                .build();
+    }
+
+    public static ProductFAQEntity createTestProductFAQ1()
+    {
+        return ProductFAQEntity.builder()
+                .id(1L)
+                .question("question1")
+                .answer("answer1")
+                .build();
+    }
+
+    public static ProductFAQEntity createTestProductFAQ2()
+    {
+        return ProductFAQEntity.builder()
+                .id(2L)
+                .question("question2")
+                .answer("answer2")
+                .build();
+    }
+
+    public static ProductFAQEntity createTestProductFAQ3()
+    {
+        return ProductFAQEntity.builder()
+                .id(3L)
+                .question("question3")
+                .answer("answer3")
                 .build();
     }
 }
