@@ -20,7 +20,9 @@ public class RoleEntity {
     @Column(name="id", nullable=false, updatable=false)
     private Long id;
 
-    private String role;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private ERole name;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

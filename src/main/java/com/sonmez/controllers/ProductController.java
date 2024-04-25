@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping
 public class ProductController {
     private final ProductService productService;
     private final Mapper<ProductEntity, ProductDto> productMapper;
@@ -31,7 +31,7 @@ public class ProductController {
         this.productMetadataMapper = productMetadataMapper;
     }
 
-    @PostMapping
+    @PostMapping("/admin/products")
     public ResponseEntity<ProductDto> createProduct(@Valid @RequestBody ProductDto productDto)
     {
         ProductEntity productEntity = productMapper.mapFrom(productDto);
@@ -39,14 +39,14 @@ public class ProductController {
         return new ResponseEntity<>(productMapper.mapTo(savedProductEntity), HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping("/products")
     public ResponseEntity<Page<ProductMetadataDto>> listProducts(Pageable pageable)
     {
         Page<ProductEntity> productEntities = productService.findAll(pageable);
         return new ResponseEntity<>(productEntities.map(productMetadataMapper::mapTo), HttpStatus.OK);
     }
 
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/products/{id}")
     public ResponseEntity<ProductDto> getProduct(@PathVariable("id") Long id)
     {
         Optional<ProductEntity> foundProduct = productService.findOne(id);
@@ -56,7 +56,7 @@ public class ProductController {
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PutMapping(path = "/{id}")
+    @PutMapping(path = "/admin/{id}")
     public ResponseEntity<ProductDto> updateProduct(@PathVariable("id") Long id, @Valid @RequestBody ProductDto productDto)
     {
         if (!productService.isExists(id)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -67,7 +67,7 @@ public class ProductController {
         return new ResponseEntity<>(productMapper.mapTo(savedProductEntity), HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "/{id}")
+    @DeleteMapping(path = "/admin/{id}")
     public ResponseEntity deleteProduct(@PathVariable("id") Long id)
     {
         productService.delete(id);

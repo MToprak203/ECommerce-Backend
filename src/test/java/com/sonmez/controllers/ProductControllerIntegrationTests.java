@@ -59,7 +59,7 @@ public class ProductControllerIntegrationTests {
         String productDtoJson = objectMapper.writeValueAsString(productDto);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/products")
+                MockMvcRequestBuilders.post("admin/products")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(productDtoJson)
         ).andExpect(
@@ -93,7 +93,7 @@ public class ProductControllerIntegrationTests {
         );
 
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/products")
+                MockMvcRequestBuilders.post("admin/products")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(productDtoJson)
         ).andExpect(
@@ -208,7 +208,7 @@ public class ProductControllerIntegrationTests {
         String productDtoJson = objectMapper.writeValueAsString(productDto);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.put("/products/" + product.getId())
+                MockMvcRequestBuilders.put("admin/products/" + product.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(productDtoJson)
         ).andExpect(
@@ -218,7 +218,7 @@ public class ProductControllerIntegrationTests {
         );
 
         mockMvc.perform(
-                MockMvcRequestBuilders.put("/products/" + 99)
+                MockMvcRequestBuilders.put("admin/products/" + 99)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(productDtoJson)
         ).andExpect(
@@ -232,14 +232,14 @@ public class ProductControllerIntegrationTests {
         productService.create(product);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.delete("/products/" + product.getId())
+                MockMvcRequestBuilders.delete("admin/products/" + product.getId())
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isNoContent()
         );
 
         mockMvc.perform(
-                MockMvcRequestBuilders.delete("/products/" + 99)
+                MockMvcRequestBuilders.delete("admin/products/" + 99)
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isNoContent()

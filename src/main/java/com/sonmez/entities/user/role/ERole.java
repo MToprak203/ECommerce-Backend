@@ -1,6 +1,6 @@
 package com.sonmez.entities.user.role;
 
-public enum Roles {
+public enum ERole {
     ADMIN,
     USER
 }

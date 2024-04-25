@@ -52,7 +52,7 @@ public class UserControllerIntegrationTests {
         UserRegisterDto registerDto = TestDataUtil.createTestUserRegisterDto();
         String registerDtoJson = objectMapper.writeValueAsString(registerDto);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/users/register")
+        mockMvc.perform(MockMvcRequestBuilders.post("/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(registerDtoJson)
         ).andExpect(
@@ -69,11 +69,11 @@ public class UserControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$.roles[0].role").value("USER")
         );
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/users/register")
+        mockMvc.perform(MockMvcRequestBuilders.post("/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(registerDtoJson)
         ).andExpect(
-                MockMvcResultMatchers.status().isOk()
+                MockMvcResultMatchers.status().isBadRequest()
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.errorMessage").isString()
         );
@@ -94,7 +94,7 @@ public class UserControllerIntegrationTests {
         UserLoginDto loginDto = TestDataUtil.createTestUserLoginDto();
         String loginDtoJson = objectMapper.writeValueAsString(loginDto);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/users/login")
+        mockMvc.perform(MockMvcRequestBuilders.post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(loginDtoJson)
         ).andExpect(
@@ -106,7 +106,7 @@ public class UserControllerIntegrationTests {
         loginDto.setPassword("incorrectPass");
         loginDtoJson = objectMapper.writeValueAsString(loginDto);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/users/login")
+        mockMvc.perform(MockMvcRequestBuilders.post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(loginDtoJson)
         ).andExpect(
@@ -119,7 +119,7 @@ public class UserControllerIntegrationTests {
         loginDto.setEmail("incorrectEmail@test.com");
         loginDtoJson = objectMapper.writeValueAsString(loginDto);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/users/login")
+        mockMvc.perform(MockMvcRequestBuilders.post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(loginDtoJson)
         ).andExpect(
@@ -141,7 +141,7 @@ public class UserControllerIntegrationTests {
         }
 
         mockMvc.perform(
-                MockMvcRequestBuilders.get("/users")
+                MockMvcRequestBuilders.get("admin/users")
                         .param("page", "0")
                         .param("size", "4")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -154,7 +154,7 @@ public class UserControllerIntegrationTests {
         );
 
         mockMvc.perform(
-                MockMvcRequestBuilders.get("/users")
+                MockMvcRequestBuilders.get("admin/users")
                         .param("page", "1")
                         .param("size", "4")
                         .contentType(MediaType.APPLICATION_JSON)

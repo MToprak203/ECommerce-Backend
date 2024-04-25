@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping
 public class UserController {
 
     private final UserService userService;
@@ -31,7 +31,7 @@ public class UserController {
         this.userRegisterMapper = userRegisterMapper;
     }
 
-    @PostMapping("/register")
+    @PostMapping("/auth/register")
     public ResponseEntity<UserDto> registerUser(@Valid @RequestBody UserRegisterDto userRegisterDto)
     {
         UserEntity userEntity = userRegisterMapper.mapFrom(userRegisterDto);
@@ -39,21 +39,21 @@ public class UserController {
         return new ResponseEntity<>(userMapper.mapTo(savedUserEntity), HttpStatus.CREATED);
     }
 
-    @PostMapping("/login")
+    @PostMapping("/auth/login")
     public ResponseEntity<UserDto> loginUser(@Valid @RequestBody UserLoginDto userLoginDto)
     {
         UserEntity user = userService.login(userLoginDto);
         return new ResponseEntity<>(userMapper.mapTo(user), HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("admin/users")
     public ResponseEntity<Page<UserDto>> listUsers(Pageable pageable)
     {
         Page<UserEntity> userEntities = userService.findAll(pageable);
         return new ResponseEntity<>(userEntities.map(userMapper::mapTo), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("users/{id}")
     public ResponseEntity<UserDto> getUser(@PathVariable("id") Long id)
     {
         Optional<UserEntity> foundUser = userService.findOne(id);
@@ -63,7 +63,7 @@ public class UserController {
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/users/{id}")
     public ResponseEntity<UserDto> updateUser(@PathVariable("id") Long id, @Valid @RequestBody UserDto userDto)
     {
         if (!userService.isExists(id)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -74,7 +74,7 @@ public class UserController {
         return new ResponseEntity<>(userMapper.mapTo(savedUserEntity), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/users/{id}")
     public ResponseEntity deleteUser(@PathVariable("id") Long id)
     {
         userService.delete(id);

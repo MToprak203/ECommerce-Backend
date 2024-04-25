@@ -3,7 +3,7 @@ package com.sonmez.services.user;
 import com.sonmez.dtos.user.UserLoginDto;
 import com.sonmez.entities.user.UserEntity;
 import com.sonmez.entities.user.role.RoleEntity;
-import com.sonmez.entities.user.role.Roles;
+import com.sonmez.entities.user.role.ERole;
 import com.sonmez.exception.user.IncorrectPasswordException;
 import com.sonmez.exception.user.UserExistsException;
 import com.sonmez.exception.user.UserNotFoundException;
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService{
 
         RoleEntity role = RoleEntity.builder()
                 .id(null)
-                .role(Roles.USER.toString())
+                .name(ERole.USER)
                 .user(user)
                 .build();
 

@@ -8,7 +8,7 @@ import com.sonmez.entities.product.ProductImageEntity;
 import com.sonmez.entities.user.AddressEntity;
 import com.sonmez.entities.user.UserEntity;
 import com.sonmez.entities.user.role.RoleEntity;
-import com.sonmez.entities.user.role.Roles;
+import com.sonmez.entities.user.role.ERole;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -96,7 +96,7 @@ public final class TestDataUtil {
     {
         return RoleEntity.builder()
                 .id(1L)
-                .role(Roles.USER.toString())
+                .name(ERole.USER)
                 .build();
     }
 }
