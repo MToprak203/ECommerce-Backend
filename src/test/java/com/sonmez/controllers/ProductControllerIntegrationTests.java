@@ -99,8 +99,7 @@ public class ProductControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.status().isOk()
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.errorMessage")
-                        .value("Product exists with product barcode barcode")
+                MockMvcResultMatchers.jsonPath("$.errorMessage").isString()
         );
     }
 

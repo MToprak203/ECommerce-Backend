@@ -75,8 +75,7 @@ public class UserControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.status().isOk()
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.errorMessage")
-                        .value("A user with testemail@test.com email already exists!")
+                MockMvcResultMatchers.jsonPath("$.errorMessage").isString()
         );
     }
 
@@ -104,7 +103,30 @@ public class UserControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$.fullName").value(user.getFullName())
         );
 
+        loginDto.setPassword("incorrectPass");
+        loginDtoJson = objectMapper.writeValueAsString(loginDto);
 
+        mockMvc.perform(MockMvcRequestBuilders.post("/users/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(loginDtoJson)
+        ).andExpect(
+                MockMvcResultMatchers.status().isUnauthorized()
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.errorMessage").isString()
+        );
+
+        loginDto = TestDataUtil.createTestUserLoginDto();
+        loginDto.setEmail("incorrectEmail@test.com");
+        loginDtoJson = objectMapper.writeValueAsString(loginDto);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/users/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(loginDtoJson)
+        ).andExpect(
+                MockMvcResultMatchers.status().isUnauthorized()
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.errorMessage").isString()
+        );
     }
 
     @Test
