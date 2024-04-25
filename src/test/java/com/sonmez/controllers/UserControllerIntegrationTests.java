@@ -103,6 +103,8 @@ public class UserControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.fullName").value(user.getFullName())
         );
+
+
     }
 
     @Test

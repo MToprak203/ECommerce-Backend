@@ -2,6 +2,7 @@ package com.sonmez.controllers;
 
 import com.sonmez.dtos.product.ProductDto;
 import com.sonmez.dtos.mappers.Mapper;
+import com.sonmez.dtos.product.ProductMetadataDto;
 import com.sonmez.entities.product.ProductEntity;
 import com.sonmez.services.product.ProductService;
 import jakarta.validation.Valid;
@@ -18,11 +19,16 @@ import java.util.Optional;
 public class ProductController {
     private final ProductService productService;
     private final Mapper<ProductEntity, ProductDto> productMapper;
+    private final Mapper<ProductEntity, ProductMetadataDto> productMetadataMapper;
 
-    public ProductController(ProductService productService, Mapper<ProductEntity, ProductDto> productMapper)
+
+    public ProductController(ProductService productService,
+                             Mapper<ProductEntity, ProductDto> productMapper,
+                             Mapper<ProductEntity, ProductMetadataDto> productMetadataMapper)
     {
         this.productService = productService;
         this.productMapper = productMapper;
+        this.productMetadataMapper = productMetadataMapper;
     }
 
     @PostMapping
@@ -34,10 +40,10 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ProductDto>> listProducts(Pageable pageable)
+    public ResponseEntity<Page<ProductMetadataDto>> listProducts(Pageable pageable)
     {
         Page<ProductEntity> productEntities = productService.findAll(pageable);
-        return new ResponseEntity<>(productEntities.map(productMapper::mapTo), HttpStatus.OK);
+        return new ResponseEntity<>(productEntities.map(productMetadataMapper::mapTo), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")

@@ -1,6 +1,7 @@
 package com.sonmez.entities.product;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,6 +27,8 @@ public class ProductEntity {
 
     private String description;
 
+    private String thumbnailUrl;
+
     @Column(unique = true)
     private String barcode;
 
@@ -34,6 +37,7 @@ public class ProductEntity {
     @Column(precision=10, scale=2)
     private BigDecimal price;
 
+    @PositiveOrZero(message = "Product stock can not be negative.")
     private Integer stock;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)

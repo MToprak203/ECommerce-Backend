@@ -71,6 +71,8 @@ public class ProductControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.description").value(product.getDescription())
         ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.thumbnailUrl").value(product.getThumbnailUrl())
+        ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.barcode").value(product.getBarcode())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.modelCode").value(product.getModelCode())
@@ -109,14 +111,6 @@ public class ProductControllerIntegrationTests {
             ProductEntity product = TestDataUtil.createTestProduct();
             product.setId(null);
             product.setBarcode(String.valueOf(i));
-            ProductImageEntity image = TestDataUtil.createTestProductImage();
-            image.setId(null);
-            image.setProduct(product);
-            ProductFAQEntity faq = TestDataUtil.createTestProductFAQ();
-            faq.setId(null);
-            faq.setProduct(product);
-            product.getImages().add(image);
-            product.getFaqs().add(faq);
             productService.create(product);
         }
 
@@ -134,25 +128,11 @@ public class ProductControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.content[0].name").value("product")
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.content[0].description").value("product description")
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.content[0].barcode").value(0)
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.content[0].modelCode").value("product modelcode")
+                MockMvcResultMatchers.jsonPath("$.content[0].thumbnailUrl").value("product thumbnailUrl")
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.content[0].price").value(BigDecimal.valueOf(1000.15).setScale(2))
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.content[0].stock").value(10)
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.content[0].images[0].id").isNumber()
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.content[0].images[0].imageUrl").value("imageUrl")
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.content[0].faqs[0].id").isNumber()
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.content[0].faqs[0].question").value("question")
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.content[0].faqs[0].answer").value("answer")
         );
 
         mockMvc.perform(
@@ -189,6 +169,8 @@ public class ProductControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$.name").value(product.getName())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.description").value(product.getDescription())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.thumbnailUrl").value(product.getThumbnailUrl())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.barcode").value(product.getBarcode())
         ).andExpect(

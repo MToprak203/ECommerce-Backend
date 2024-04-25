@@ -23,6 +23,7 @@ public final class TestDataUtil {
                 .id(1L)
                 .name("product")
                 .description("product description")
+                .thumbnailUrl("product thumbnailUrl")
                 .barcode("product barcode")
                 .modelCode("product modelcode")
                 .price(BigDecimal.valueOf(1000.15).setScale(2))

@@ -29,6 +29,8 @@ public class ProductDto {
     @NotBlank(message = "Product description can not be empty.")
     private String description;
 
+    private String thumbnailUrl;
+
     private String barcode;
 
     private String modelCode;
