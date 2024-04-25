@@ -1,6 +1,5 @@
 package com.sonmez.dtos.user;
 
-import com.sonmez.entities.user.role.RoleEntity;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -10,34 +9,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.management.relation.Role;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserDto {
+public class SignInResultDto {
 
     private Long id;
 
-    @NotNull
-    @NotBlank
-    private String fullName;
-
-    @NotNull
-    @NotBlank
-    @Email
     private String email;
 
-    @Pattern(
-            regexp = "^\\+?[1-9]\\d{1,14}$",
-            message = "Invalid phone number format"
-    )
-    private String phoneNumber;
+    private String token;
 
-    private List<AddressDto> addresses;
+    private String type;
 
-    @NotNull
-    private List<RoleEntity> roles;
+    private List<String> roles;
 }

@@ -1,6 +1,7 @@
 package com.sonmez.controllers;
 
 import com.sonmez.dtos.mappers.Mapper;
+import com.sonmez.dtos.user.SignInResultDto;
 import com.sonmez.dtos.user.UserDto;
 import com.sonmez.dtos.user.UserLoginDto;
 import com.sonmez.dtos.user.UserRegisterDto;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -40,20 +42,22 @@ public class UserController {
     }
 
     @PostMapping("/auth/login")
-    public ResponseEntity<UserDto> loginUser(@Valid @RequestBody UserLoginDto userLoginDto)
+    public ResponseEntity<SignInResultDto> loginUser(@Valid @RequestBody UserLoginDto userLoginDto)
     {
-        UserEntity user = userService.login(userLoginDto);
-        return new ResponseEntity<>(userMapper.mapTo(user), HttpStatus.OK);
+        SignInResultDto resultDto = userService.login(userLoginDto);
+        return new ResponseEntity<>(resultDto, HttpStatus.OK);
     }
 
     @GetMapping("admin/users")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Page<UserDto>> listUsers(Pageable pageable)
     {
         Page<UserEntity> userEntities = userService.findAll(pageable);
         return new ResponseEntity<>(userEntities.map(userMapper::mapTo), HttpStatus.OK);
     }
 
-    @GetMapping("users/{id}")
+    @GetMapping("/users/{id}")
+    @PreAuthorize("hasRole('ROLE_USER') and @authComponent.hasPermission(#id) or hasRole('ADMIN')")
     public ResponseEntity<UserDto> getUser(@PathVariable("id") Long id)
     {
         Optional<UserEntity> foundUser = userService.findOne(id);
@@ -64,6 +68,7 @@ public class UserController {
     }
 
     @PutMapping("/users/{id}")
+    @PreAuthorize("hasRole('USER') and @authComponent.hasPermission(#id) or hasRole('ADMIN')")
     public ResponseEntity<UserDto> updateUser(@PathVariable("id") Long id, @Valid @RequestBody UserDto userDto)
     {
         if (!userService.isExists(id)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -75,6 +80,7 @@ public class UserController {
     }
 
     @DeleteMapping("/users/{id}")
+    @PreAuthorize("hasRole('USER') and @authComponent.hasPermission(#id) or hasRole('ADMIN')")
     public ResponseEntity deleteUser(@PathVariable("id") Long id)
     {
         userService.delete(id);

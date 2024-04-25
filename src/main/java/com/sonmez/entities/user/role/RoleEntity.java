@@ -16,15 +16,10 @@ import lombok.NoArgsConstructor;
 public class RoleEntity {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name="id", nullable=false, updatable=false)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private ERole name;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
 }

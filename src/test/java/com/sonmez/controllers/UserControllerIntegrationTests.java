@@ -73,7 +73,7 @@ public class UserControllerIntegrationTests {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(registerDtoJson)
         ).andExpect(
-                MockMvcResultMatchers.status().isBadRequest()
+                MockMvcResultMatchers.status().isConflict()
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.errorMessage").isString()
         );

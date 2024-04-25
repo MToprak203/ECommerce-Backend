@@ -96,7 +96,7 @@ public final class TestDataUtil {
     {
         return RoleEntity.builder()
                 .id(1L)
-                .name(ERole.USER)
+                .name(ERole.ROLE_USER)
                 .build();
     }
 }

@@ -1,5 +1,6 @@
 package com.sonmez.services.user;
 
+import com.sonmez.dtos.user.SignInResultDto;
 import com.sonmez.dtos.user.UserLoginDto;
 import com.sonmez.entities.user.UserEntity;
 import org.springframework.data.domain.Page;
@@ -11,7 +12,7 @@ public interface UserService {
 
     UserEntity register(UserEntity entity);
 
-    UserEntity login(UserLoginDto userLoginDto);
+    SignInResultDto login(UserLoginDto userLoginDto);
 
     UserEntity update(UserEntity entity);
 

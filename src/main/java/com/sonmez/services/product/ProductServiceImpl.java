@@ -3,6 +3,7 @@ package com.sonmez.services.product;
 import com.sonmez.entities.product.ProductEntity;
 import com.sonmez.exception.product.ProductExistsException;
 import com.sonmez.repositories.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,11 +16,8 @@ import java.util.stream.StreamSupport;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    private final ProductRepository productRepository;
-
-    public ProductServiceImpl(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
+    @Autowired
+    private ProductRepository productRepository;
 
     @Override
     public ProductEntity create(ProductEntity product) {

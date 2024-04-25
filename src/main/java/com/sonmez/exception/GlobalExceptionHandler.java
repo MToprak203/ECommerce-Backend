@@ -1,9 +1,10 @@
 package com.sonmez.exception;
 
-import com.sonmez.exception.user.IncorrectPasswordException;
+import com.sonmez.exception.user.UserAlreadyExistsException;
 import com.sonmez.exception.user.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,7 +31,23 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({UserNotFoundException.class, IncorrectPasswordException.class})
+    @ExceptionHandler({UserAlreadyExistsException.class})
+    public ResponseEntity<Map<String, String>> handleRegisterExceptions(RuntimeException ex)
+    {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("errorMessage", ex.getMessage());
+        return new ResponseEntity<>(errors, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<Map<String, String>> handleIncorrectCredentialsExpections()
+    {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("errorMessage", "Incorrect email or password!");
+        return new ResponseEntity<>(errors, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Map<String, String>> handleAuthorizationExceptions(RuntimeException ex) {
         Map<String, String> errors = new HashMap<>();
         errors.put("errorMessage", ex.getMessage());
