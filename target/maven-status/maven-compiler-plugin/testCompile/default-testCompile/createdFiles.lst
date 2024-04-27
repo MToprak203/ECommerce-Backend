@@ -1,4 +1,5 @@
-com\sonmez\ApplicationTests.class
-com\sonmez\controllers\ProductControllerIntegrationTests.class
-com\sonmez\TestDataUtil.class
-com\sonmez\controllers\UserControllerIntegrationTests.class
+com\ecommerce\website\TestDataUtil.class
+com\ecommerce\website\ApplicationTests.class
+com\ecommerce\website\controllers\UserControllerIntegrationTests.class
+com\ecommerce\website\UserLoginUtil.class
+com\ecommerce\website\controllers\ProductControllerIntegrationTests.class

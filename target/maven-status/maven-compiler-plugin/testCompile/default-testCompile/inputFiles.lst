@@ -1,4 +1,5 @@
-D:\Projects\website\src\test\java\com\sonmez\TestDataUtil.java
-D:\Projects\website\src\test\java\com\sonmez\controllers\ProductControllerIntegrationTests.java
-D:\Projects\website\src\test\java\com\sonmez\controllers\UserControllerIntegrationTests.java
-D:\Projects\website\src\test\java\com\sonmez\ApplicationTests.java
+D:\Projects\ECommerce-Backend\src\test\java\com\ecommerce\website\controllers\ProductControllerIntegrationTests.java
+D:\Projects\ECommerce-Backend\src\test\java\com\ecommerce\website\UserLoginUtil.java
+D:\Projects\ECommerce-Backend\src\test\java\com\ecommerce\website\controllers\UserControllerIntegrationTests.java
+D:\Projects\ECommerce-Backend\src\test\java\com\ecommerce\website\TestDataUtil.java
+D:\Projects\ECommerce-Backend\src\test\java\com\ecommerce\website\ApplicationTests.java
