@@ -1,20 +1,19 @@
 package com.ecommerce.website.controllers;
 
 import com.ecommerce.website.UserLoginUtil;
-import com.ecommerce.website.dtos.user.SignInResultDto;
+import com.ecommerce.website.dtos.user.auth.SignInResultDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ecommerce.website.TestDataUtil;
 import com.ecommerce.website.dtos.mappers.Mapper;
 import com.ecommerce.website.dtos.user.UserDto;
-import com.ecommerce.website.dtos.user.UserLoginDto;
-import com.ecommerce.website.dtos.user.UserRegisterDto;
-import com.ecommerce.website.entities.user.AddressEntity;
-import com.ecommerce.website.entities.user.UserEntity;
+import com.ecommerce.website.dtos.user.auth.UserLoginDto;
+import com.ecommerce.website.dtos.user.auth.UserRegisterDto;
+import com.ecommerce.website.entities.user.Address;
+import com.ecommerce.website.entities.user.User;
 import com.ecommerce.website.services.user.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -39,7 +38,7 @@ public class UserControllerIntegrationTests {
     @Autowired
     private UserService userService;
     @Autowired
-    private Mapper<UserEntity, UserDto> userMapper;
+    private Mapper<User, UserDto> userMapper;
     @Autowired
     private UserLoginUtil userLoginUtil;
 
@@ -79,13 +78,13 @@ public class UserControllerIntegrationTests {
 
     @Test
     public void testPasswordEncoded() {
-        UserEntity savedUser = userService.register(TestDataUtil.createTestUser());
+        User savedUser = userService.register(TestDataUtil.createTestUser());
         assertThat(savedUser.getPassword()).isNotEqualTo("asdsfaA15!2");
     }
 
     @Test
     public void loginTest() throws Exception {
-        UserEntity user = TestDataUtil.createTestUser();
+        User user = TestDataUtil.createTestUser();
         userService.register(user);
 
         UserLoginDto loginDto = TestDataUtil.createTestUserLoginDto();
@@ -131,7 +130,7 @@ public class UserControllerIntegrationTests {
     @Test
     public void listUsers() throws Exception {
         for (int i = 0; i < 5; i++) {
-            UserEntity user = TestDataUtil.createTestUser();
+            User user = TestDataUtil.createTestUser();
             user.setId(null);
             user.setEmail(i + "@test.com");
             user.setPhoneNumber("+555555555555");
@@ -200,14 +199,14 @@ public class UserControllerIntegrationTests {
 
     @Test
     public void getUserTest() throws Exception {
-        UserEntity user = TestDataUtil.createTestUser();
+        User user = TestDataUtil.createTestUser();
         user.setId(null);
         user.setEmail("user@test.com");
-        AddressEntity address = TestDataUtil.createTestAddress();
+        Address address = TestDataUtil.createTestAddress();
         address.setId(null);
         address.setUser(user);
         user.getAddresses().add(address);
-        UserEntity savedUser = userService.register(user);
+        User savedUser = userService.register(user);
 
         // Authentication is required
         mockMvc.perform(
@@ -264,10 +263,10 @@ public class UserControllerIntegrationTests {
 
     @Test
     public void updateUserTest() throws Exception {
-        UserEntity user = TestDataUtil.createTestUser();
+        User user = TestDataUtil.createTestUser();
         user.setEmail("fdsafwq@test.com");
         user.setId(null);
-        UserEntity savedUser = userService.register(user);
+        User savedUser = userService.register(user);
 
         UserDto userDto = userMapper.mapTo(user);
         userDto.setFullName("dsafasd");
@@ -349,10 +348,10 @@ public class UserControllerIntegrationTests {
 
     @Test
     public void deleteUserTest() throws Exception {
-        UserEntity user = TestDataUtil.createTestUser();
+        User user = TestDataUtil.createTestUser();
         user.setEmail("asd@test.com");
         user.setId(null);
-        UserEntity savedUser = userService.register(user);
+        User savedUser = userService.register(user);
 
         // Authorization is required
         mockMvc.perform(

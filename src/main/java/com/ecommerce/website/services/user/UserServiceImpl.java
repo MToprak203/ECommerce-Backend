@@ -1,12 +1,12 @@
 package com.ecommerce.website.services.user;
 
-import com.ecommerce.website.dtos.user.SignInResultDto;
-import com.ecommerce.website.dtos.user.UserLoginDto;
-import com.ecommerce.website.entities.user.UserEntity;
+import com.ecommerce.website.dtos.user.auth.SignInResultDto;
+import com.ecommerce.website.dtos.user.auth.UserLoginDto;
+import com.ecommerce.website.entities.user.User;
 import com.ecommerce.website.entities.user.role.ERole;
 import com.ecommerce.website.exception.user.UserAlreadyExistsException;
-import com.ecommerce.website.repositories.RoleRepository;
-import com.ecommerce.website.repositories.UserRepository;
+import com.ecommerce.website.repositories.user.components.RoleRepository;
+import com.ecommerce.website.repositories.user.UserRepository;
 import com.ecommerce.website.security.jwt.JwtUtils;
 import com.ecommerce.website.security.user.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -44,7 +43,7 @@ public class UserServiceImpl implements UserService{
     private AuthenticationManager authenticationManager;
 
     @Override
-    public UserEntity register(UserEntity user) {
+    public User register(User user) {
 
         if (userRepository.existsByEmail(user.getEmail()))
             throw new UserAlreadyExistsException(user.getEmail());
@@ -85,17 +84,17 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserEntity update(UserEntity user) {
+    public User update(User user) {
         return userRepository.save(user);
     }
 
     @Override
-    public Page<UserEntity> findAll(Pageable pageable) {
+    public Page<User> findAll(Pageable pageable) {
         return userRepository.findAll(pageable);
     }
 
     @Override
-    public Optional<UserEntity> findOne(Long id) {
+    public Optional<User> findOne(Long id) {
         return userRepository.findById(id);
     }
 

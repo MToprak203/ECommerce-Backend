@@ -1,12 +1,12 @@
 package com.ecommerce.website;
 
-import com.ecommerce.website.dtos.user.SignInResultDto;
-import com.ecommerce.website.dtos.user.UserLoginDto;
-import com.ecommerce.website.entities.user.UserEntity;
+import com.ecommerce.website.dtos.user.auth.SignInResultDto;
+import com.ecommerce.website.dtos.user.auth.UserLoginDto;
+import com.ecommerce.website.entities.user.User;
 import com.ecommerce.website.entities.user.role.ERole;
-import com.ecommerce.website.entities.user.role.RoleEntity;
-import com.ecommerce.website.repositories.RoleRepository;
-import com.ecommerce.website.repositories.UserRepository;
+import com.ecommerce.website.entities.user.role.Role;
+import com.ecommerce.website.repositories.user.components.RoleRepository;
+import com.ecommerce.website.repositories.user.UserRepository;
 import com.ecommerce.website.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,7 +38,7 @@ public class UserLoginUtil {
 
     public SignInResultDto TestUserLogin()
     {
-        UserEntity testUser = TestDataUtil.createTestUser();
+        User testUser = TestDataUtil.createTestUser();
 
         userService.register(testUser);
 
@@ -52,10 +52,10 @@ public class UserLoginUtil {
 
     public SignInResultDto TestAdminLogin()
     {
-        Set<RoleEntity> roles = new HashSet<>();
+        Set<Role> roles = new HashSet<>();
         roles.add(roleRepository.findByName(ERole.ROLE_ADMIN));
 
-        UserEntity admin = UserEntity.builder()
+        User admin = User.builder()
                 .email(adminEmail)
                 .password(passwordEncoder.encode(adminPassword))
                 .roles(roles)

@@ -1,33 +1,33 @@
 package com.ecommerce.website.dtos.mappers.impl.user;
 
 import com.ecommerce.website.dtos.mappers.Mapper;
-import com.ecommerce.website.dtos.user.AddressDto;
+import com.ecommerce.website.dtos.user.components.AddressDto;
 import com.ecommerce.website.dtos.user.UserDto;
-import com.ecommerce.website.entities.user.AddressEntity;
-import com.ecommerce.website.entities.user.UserEntity;
+import com.ecommerce.website.entities.user.Address;
+import com.ecommerce.website.entities.user.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
 @Component
-public class UserMapperImpl extends Mapper<UserEntity, UserDto> {
+public class UserMapperImpl extends Mapper<User, UserDto> {
 
-    private final Mapper<AddressEntity, AddressDto> addressMapper;
+    private final Mapper<Address, AddressDto> addressMapper;
 
     public UserMapperImpl(ModelMapper modelMapper,
-                          Mapper<AddressEntity, AddressDto> addressMapper) {
+                          Mapper<Address, AddressDto> addressMapper) {
         super(modelMapper);
         this.addressMapper = addressMapper;
     }
 
     @Override
-    public UserDto mapTo(UserEntity userEntity) {
-        UserDto mapped = modelMapper.map(userEntity, UserDto.class);
+    public UserDto mapTo(User user) {
+        UserDto mapped = modelMapper.map(user, UserDto.class);
 
-        if (userEntity.getAddresses() != null)
+        if (user.getAddresses() != null)
         {
-            mapped.setAddresses(userEntity
+            mapped.setAddresses(user
                     .getAddresses()
                     .stream()
                     .map(addressMapper::mapTo)
@@ -39,9 +39,9 @@ public class UserMapperImpl extends Mapper<UserEntity, UserDto> {
     }
 
     @Override
-    public UserEntity mapFrom(UserDto userDto) {
+    public User mapFrom(UserDto userDto) {
 
-        UserEntity mapped = modelMapper.map(userDto, UserEntity.class);
+        User mapped = modelMapper.map(userDto, User.class);
 
         if (userDto.getAddresses() != null)
         {

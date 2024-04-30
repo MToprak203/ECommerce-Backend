@@ -1,6 +1,7 @@
 package com.ecommerce.website.dtos.user;
 
-import com.ecommerce.website.entities.user.role.RoleEntity;
+import com.ecommerce.website.dtos.user.components.AddressDto;
+import com.ecommerce.website.entities.user.role.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -39,5 +40,5 @@ public class UserDto {
     private List<AddressDto> addresses;
 
     @NotNull
-    private Set<RoleEntity> roles;
+    private Set<Role> roles;
 }

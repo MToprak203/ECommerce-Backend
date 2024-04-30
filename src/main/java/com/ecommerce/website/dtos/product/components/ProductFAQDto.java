@@ -1,4 +1,4 @@
-package com.ecommerce.website.dtos.product;
+package com.ecommerce.website.dtos.product.components;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProductImageDto {
-
+public class ProductFAQDto {
     private Long id;
 
-    private String imageUrl;
+    private String question;
+
+    private String answer;
 }

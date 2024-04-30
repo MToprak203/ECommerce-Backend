@@ -1,6 +1,6 @@
 package com.ecommerce.website.services.product;
 
-import com.ecommerce.website.entities.product.ProductEntity;
+import com.ecommerce.website.entities.product.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -8,15 +8,15 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductService{
-    ProductEntity create(ProductEntity product);
+    Product create(Product product);
 
-    ProductEntity update(ProductEntity product);
+    Product update(Product product);
 
-    List<ProductEntity> findAll();
+    List<Product> findAll();
 
-    Page<ProductEntity> findAll(Pageable pageable);
+    Page<Product> findAll(Pageable pageable);
 
-    Optional<ProductEntity> findOne(Long id);
+    Optional<Product> findOne(Long id);
 
     boolean isExists(Long id);
 

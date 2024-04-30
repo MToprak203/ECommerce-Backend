@@ -1,10 +1,10 @@
 package com.ecommerce.website.seeds;
 
-import com.ecommerce.website.entities.user.UserEntity;
+import com.ecommerce.website.entities.user.User;
 import com.ecommerce.website.entities.user.role.ERole;
-import com.ecommerce.website.entities.user.role.RoleEntity;
-import com.ecommerce.website.repositories.RoleRepository;
-import com.ecommerce.website.repositories.UserRepository;
+import com.ecommerce.website.entities.user.role.Role;
+import com.ecommerce.website.repositories.user.components.RoleRepository;
+import com.ecommerce.website.repositories.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -40,10 +40,10 @@ public class AdminUserSeeder {
     @Transactional
     public void LoadAdminUser(ContextRefreshedEvent event)
     {
-        Set<RoleEntity> roles = new HashSet<>();
+        Set<Role> roles = new HashSet<>();
         roles.add(roleRepository.findByName(ERole.ROLE_ADMIN));
 
-        UserEntity admin = UserEntity.builder()
+        User admin = User.builder()
                 .fullName(adminName)
                 .email(adminEmail)
                 .password(passwordEncoder.encode(adminPassword))

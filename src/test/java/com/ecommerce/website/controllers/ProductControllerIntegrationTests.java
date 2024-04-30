@@ -2,14 +2,14 @@ package com.ecommerce.website.controllers;
 
 
 import com.ecommerce.website.UserLoginUtil;
-import com.ecommerce.website.dtos.user.SignInResultDto;
+import com.ecommerce.website.dtos.user.auth.SignInResultDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ecommerce.website.TestDataUtil;
 import com.ecommerce.website.dtos.mappers.Mapper;
 import com.ecommerce.website.dtos.product.ProductDto;
-import com.ecommerce.website.entities.product.ProductEntity;
-import com.ecommerce.website.entities.product.ProductFAQEntity;
-import com.ecommerce.website.entities.product.ProductImageEntity;
+import com.ecommerce.website.entities.product.Product;
+import com.ecommerce.website.entities.product.components.ProductFAQ;
+import com.ecommerce.website.entities.product.components.ProductImage;
 import com.ecommerce.website.services.product.ProductService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,7 +37,7 @@ public class ProductControllerIntegrationTests {
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
-    private Mapper<ProductEntity, ProductDto> productMapper;
+    private Mapper<Product, ProductDto> productMapper;
     @Autowired
     private ProductService productService;
     @Autowired
@@ -46,9 +46,9 @@ public class ProductControllerIntegrationTests {
 
     @Test
     public void createProductTest() throws Exception {
-        ProductEntity product = TestDataUtil.createTestProduct();
-        ProductImageEntity image = TestDataUtil.createTestProductImage();
-        ProductFAQEntity faq = TestDataUtil.createTestProductFAQ();
+        Product product = TestDataUtil.createTestProduct();
+        ProductImage image = TestDataUtil.createTestProductImage();
+        ProductFAQ faq = TestDataUtil.createTestProductFAQ();
         product.getImages().add(image);
         product.getFaqs().add(faq);
 
@@ -135,7 +135,7 @@ public class ProductControllerIntegrationTests {
     public void listProductsTest() throws Exception {
         for (int i = 0; i < 5; i++)
         {
-            ProductEntity product = TestDataUtil.createTestProduct();
+            Product product = TestDataUtil.createTestProduct();
             product.setId(null);
             product.setBarcode(String.valueOf(i));
             productService.create(product);
@@ -178,10 +178,10 @@ public class ProductControllerIntegrationTests {
 
     @Test
     public void getProductTest() throws Exception {
-        ProductEntity product = TestDataUtil.createTestProduct();
-        ProductImageEntity image = TestDataUtil.createTestProductImage();
+        Product product = TestDataUtil.createTestProduct();
+        ProductImage image = TestDataUtil.createTestProductImage();
         image.setProduct(product);
-        ProductFAQEntity faq = TestDataUtil.createTestProductFAQ();
+        ProductFAQ faq = TestDataUtil.createTestProductFAQ();
         faq.setProduct(product);
         product.getImages().add(image);
         product.getFaqs().add(faq);
@@ -231,7 +231,7 @@ public class ProductControllerIntegrationTests {
 
     @Test
     public void updateProductTest() throws Exception {
-        ProductEntity product = TestDataUtil.createTestProduct();
+        Product product = TestDataUtil.createTestProduct();
         product.setId(null);
         productService.create(product);
 
@@ -289,7 +289,7 @@ public class ProductControllerIntegrationTests {
 
     @Test
     public void deleteProductTest() throws Exception {
-        ProductEntity product = TestDataUtil.createTestProduct();
+        Product product = TestDataUtil.createTestProduct();
         productService.create(product);
 
         // Authorization is required

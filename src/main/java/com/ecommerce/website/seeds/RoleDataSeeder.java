@@ -1,8 +1,8 @@
 package com.ecommerce.website.seeds;
 
 import com.ecommerce.website.entities.user.role.ERole;
-import com.ecommerce.website.entities.user.role.RoleEntity;
-import com.ecommerce.website.repositories.RoleRepository;
+import com.ecommerce.website.entities.user.role.Role;
+import com.ecommerce.website.repositories.user.components.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -25,7 +25,7 @@ public class RoleDataSeeder {
 
         for(ERole erole: roles) {
             if (roleRepository.findByName(erole)==null) {
-                roleRepository.save(RoleEntity.builder().name(erole).build());
+                roleRepository.save(Role.builder().name(erole).build());
             }
         }
 

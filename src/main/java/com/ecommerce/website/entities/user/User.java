@@ -1,6 +1,7 @@
 package com.ecommerce.website.entities.user;
 
-import com.ecommerce.website.entities.user.role.RoleEntity;
+import com.ecommerce.website.entities.product.Product;
+import com.ecommerce.website.entities.user.role.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,8 +21,7 @@ import java.util.Set;
             @UniqueConstraint(columnNames = "email")
         }
 )
-public class UserEntity {
-
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id", nullable=false, updatable=false)
@@ -36,12 +36,15 @@ public class UserEntity {
     private String phoneNumber;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AddressEntity> addresses;
+    private List<Address> addresses;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Set<RoleEntity> roles;
+    private Set<Role> roles;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Product> products;
 }

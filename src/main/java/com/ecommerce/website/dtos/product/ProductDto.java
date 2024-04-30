@@ -1,5 +1,11 @@
 package com.ecommerce.website.dtos.product;
 
+import com.ecommerce.website.dtos.product.components.BrandDto;
+import com.ecommerce.website.dtos.product.components.ProductFAQDto;
+import com.ecommerce.website.dtos.product.components.ProductImageDto;
+import com.ecommerce.website.dtos.user.UserDto;
+import com.ecommerce.website.dtos.user.UserMetadataDto;
+import com.ecommerce.website.entities.product.components.Category;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -11,6 +17,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -31,15 +38,20 @@ public class ProductDto {
 
     private String thumbnailUrl;
 
-    private String barcode;
-
-    private String modelCode;
-
     @PositiveOrZero(message = "Product price can not be negative.")
     private BigDecimal price;
 
     @PositiveOrZero(message = "Product stock can not be negative.")
     private Integer stock;
+
+    private BrandDto brand;
+
+    @NotNull
+    private UserMetadataDto user;
+
+    @NotNull(message = "Categories can not be empty.")
+    @NotBlank(message = "Product description can not be empty.")
+    private Set<Category> categories;
 
     private List<ProductImageDto> images;
 

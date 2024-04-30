@@ -1,39 +1,50 @@
 package com.ecommerce.website.dtos.mappers.impl.product;
 
 import com.ecommerce.website.dtos.product.ProductDto;
-import com.ecommerce.website.dtos.product.ProductFAQDto;
-import com.ecommerce.website.dtos.product.ProductImageDto;
+import com.ecommerce.website.dtos.product.components.BrandDto;
+import com.ecommerce.website.dtos.product.components.ProductFAQDto;
+import com.ecommerce.website.dtos.product.components.ProductImageDto;
 import com.ecommerce.website.dtos.mappers.Mapper;
-import com.ecommerce.website.entities.product.ProductEntity;
-import com.ecommerce.website.entities.product.ProductFAQEntity;
-import com.ecommerce.website.entities.product.ProductImageEntity;
+import com.ecommerce.website.dtos.user.UserMetadataDto;
+import com.ecommerce.website.entities.product.Product;
+import com.ecommerce.website.entities.product.components.Brand;
+import com.ecommerce.website.entities.product.components.ProductFAQ;
+import com.ecommerce.website.entities.product.components.ProductImage;
+import com.ecommerce.website.entities.user.User;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
 @Component
-public class ProductMapperImpl extends Mapper<ProductEntity, ProductDto> {
+public class ProductMapperImpl extends Mapper<Product, ProductDto> {
 
-    private final Mapper<ProductImageEntity, ProductImageDto> productImageMapper;
-    private final Mapper<ProductFAQEntity, ProductFAQDto> productFaqMapper;
+    @Autowired
+    private Mapper<ProductImage, ProductImageDto> productImageMapper;
 
-    public ProductMapperImpl(ModelMapper modelMapper,
-                             Mapper<ProductImageEntity, ProductImageDto> productImageMapper,
-                             Mapper<ProductFAQEntity, ProductFAQDto> productFaqMapper)
-    {
+    @Autowired
+    private Mapper<ProductFAQ, ProductFAQDto> productFaqMapper;
+
+    @Autowired
+    private Mapper<Brand, BrandDto> brandMapper;
+
+    @Autowired
+    private Mapper<User, UserMetadataDto> userMetadataMapper;
+
+    public ProductMapperImpl(ModelMapper modelMapper) {
         super(modelMapper);
-        this.productImageMapper = productImageMapper;
-        this.productFaqMapper = productFaqMapper;
     }
 
     @Override
-    public ProductDto mapTo(ProductEntity productEntity) {
-        ProductDto mapped = modelMapper.map(productEntity, ProductDto.class);
+    public ProductDto mapTo(Product product) {
+        ProductDto mapped = modelMapper.map(product, ProductDto.class);
+        mapped.setBrand(brandMapper.mapTo(product.getBrand()));
+        mapped.setUser(userMetadataMapper.mapTo(product.getUser()));
 
-        if (productEntity.getImages() != null)
+        if (product.getImages() != null)
         {
-            mapped.setImages(productEntity
+            mapped.setImages(product
                     .getImages()
                     .stream()
                     .map(productImageMapper::mapTo)
@@ -41,9 +52,9 @@ public class ProductMapperImpl extends Mapper<ProductEntity, ProductDto> {
             );
         }
 
-        if (productEntity.getFaqs() != null)
+        if (product.getFaqs() != null)
         {
-            mapped.setFaqs(productEntity
+            mapped.setFaqs(product
                     .getFaqs()
                     .stream()
                     .map(productFaqMapper::mapTo)
@@ -55,8 +66,10 @@ public class ProductMapperImpl extends Mapper<ProductEntity, ProductDto> {
     }
 
     @Override
-    public ProductEntity mapFrom(ProductDto productDto) {
-        ProductEntity mapped = modelMapper.map(productDto, ProductEntity.class);
+    public Product mapFrom(ProductDto productDto) {
+        Product mapped = modelMapper.map(productDto, Product.class);
+        mapped.setBrand(brandMapper.mapFrom(productDto.getBrand()));
+        mapped.setUser(userMetadataMapper.mapFrom(productDto.getUser()));
 
         if (productDto.getImages() != null)
         {

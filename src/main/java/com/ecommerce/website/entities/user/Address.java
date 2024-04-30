@@ -1,4 +1,4 @@
-package com.ecommerce.website.entities.product;
+package com.ecommerce.website.entities.user;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,19 +11,27 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "Product_FAQs")
-public class ProductFAQEntity {
+@Table(name = "Addresses")
+public class Address {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name="id", nullable=false, updatable=false)
     private Long id;
 
-    private String question;
+    private String address;
 
-    private String answer;
+    private String district;
+
+    private String city;
+
+    private String country;
+
+    private Boolean isBillingAddress;
+
+    private Boolean isDeliveryAddress;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
-    private ProductEntity product;
+    @JoinColumn(name = "user_id")
+    private User user;
 }

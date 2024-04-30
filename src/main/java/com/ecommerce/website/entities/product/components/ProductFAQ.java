@@ -1,5 +1,6 @@
-package com.ecommerce.website.entities.product;
+package com.ecommerce.website.entities.product.components;
 
+import com.ecommerce.website.entities.product.Product;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,17 +12,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "ProductImages")
-public class ProductImageEntity {
+@Table(name = "Product_FAQs")
+public class ProductFAQ {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name="id", nullable=false, updatable=false)
     private Long id;
 
+    private String question;
+
+    private String answer;
+
     @ManyToOne
     @JoinColumn(name = "product_id")
-    private ProductEntity product;
-
-    private String imageUrl;
+    private Product product;
 }

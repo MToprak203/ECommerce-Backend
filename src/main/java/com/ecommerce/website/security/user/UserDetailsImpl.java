@@ -1,7 +1,7 @@
 package com.ecommerce.website.security.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ecommerce.website.entities.user.UserEntity;
+import com.ecommerce.website.entities.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,7 +25,7 @@ public class UserDetailsImpl implements UserDetails {
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public static UserDetailsImpl build(UserEntity user) {
+    public static UserDetailsImpl build(User user) {
         List<GrantedAuthority> authorities = user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName().name()))
                 .collect(Collectors.toList());

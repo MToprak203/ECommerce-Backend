@@ -1,8 +1,8 @@
 package com.ecommerce.website.services.product;
 
-import com.ecommerce.website.entities.product.ProductEntity;
+import com.ecommerce.website.entities.product.Product;
 import com.ecommerce.website.exception.product.ProductExistsException;
-import com.ecommerce.website.repositories.ProductRepository;
+import com.ecommerce.website.repositories.product.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,21 +20,21 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
 
     @Override
-    public ProductEntity create(ProductEntity product) {
-        if (productRepository.existsByBarcode(product.getBarcode()))
+    public Product create(Product product) {
+        if (productRepository.existsByUserAndName(product.getUser(), product.getName()))
         {
-            throw new ProductExistsException(product.getBarcode());
+            throw new ProductExistsException(product.getName());
         }
         return productRepository.save(product);
     }
 
     @Override
-    public ProductEntity update(ProductEntity product) {
+    public Product update(Product product) {
         return productRepository.save(product);
     }
 
     @Override
-    public List<ProductEntity> findAll() {
+    public List<Product> findAll() {
         return StreamSupport.stream(productRepository
                                 .findAll()
                                 .spliterator(),
@@ -43,12 +43,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductEntity> findAll(Pageable pageable) {
+    public Page<Product> findAll(Pageable pageable) {
         return productRepository.findAll(pageable);
     }
 
     @Override
-    public Optional<ProductEntity> findOne(Long id) {
+    public Optional<Product> findOne(Long id) {
         return productRepository.findById(id);
     }
 

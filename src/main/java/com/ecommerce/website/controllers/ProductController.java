@@ -3,7 +3,7 @@ package com.ecommerce.website.controllers;
 import com.ecommerce.website.dtos.product.ProductDto;
 import com.ecommerce.website.dtos.mappers.Mapper;
 import com.ecommerce.website.dtos.product.ProductMetadataDto;
-import com.ecommerce.website.entities.product.ProductEntity;
+import com.ecommerce.website.entities.product.Product;
 import com.ecommerce.website.services.product.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,31 +23,31 @@ public class ProductController {
     @Autowired
     private ProductService productService;
     @Autowired
-    private Mapper<ProductEntity, ProductDto> productMapper;
+    private Mapper<Product, ProductDto> productMapper;
     @Autowired
-    private Mapper<ProductEntity, ProductMetadataDto> productMetadataMapper;
+    private Mapper<Product, ProductMetadataDto> productMetadataMapper;
 
 
     @PostMapping("/admin/products")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ProductDto> createProduct(@Valid @RequestBody ProductDto productDto)
     {
-        ProductEntity productEntity = productMapper.mapFrom(productDto);
-        ProductEntity savedProductEntity = productService.create(productEntity);
+        Product product = productMapper.mapFrom(productDto);
+        Product savedProductEntity = productService.create(product);
         return new ResponseEntity<>(productMapper.mapTo(savedProductEntity), HttpStatus.CREATED);
     }
 
     @GetMapping("/products")
     public ResponseEntity<Page<ProductMetadataDto>> listProducts(Pageable pageable)
     {
-        Page<ProductEntity> productEntities = productService.findAll(pageable);
+        Page<Product> productEntities = productService.findAll(pageable);
         return new ResponseEntity<>(productEntities.map(productMetadataMapper::mapTo), HttpStatus.OK);
     }
 
     @GetMapping(path = "/products/{id}")
     public ResponseEntity<ProductDto> getProduct(@PathVariable("id") Long id)
     {
-        Optional<ProductEntity> foundProduct = productService.findOne(id);
+        Optional<Product> foundProduct = productService.findOne(id);
         return foundProduct.map(productEntity -> {
             ProductDto productDto = productMapper.mapTo(productEntity);
             return new ResponseEntity<>(productDto, HttpStatus.OK);
@@ -61,8 +61,8 @@ public class ProductController {
         if (!productService.isExists(id)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         productDto.setId(id);
-        ProductEntity productEntity = productMapper.mapFrom(productDto);
-        ProductEntity savedProductEntity = productService.update(productEntity);
+        Product product = productMapper.mapFrom(productDto);
+        Product savedProductEntity = productService.update(product);
         return new ResponseEntity<>(productMapper.mapTo(savedProductEntity), HttpStatus.OK);
     }
 

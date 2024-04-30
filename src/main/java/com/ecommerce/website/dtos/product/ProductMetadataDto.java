@@ -1,11 +1,16 @@
 package com.ecommerce.website.dtos.product;
 
+import com.ecommerce.website.dtos.product.components.BrandDto;
+import com.ecommerce.website.dtos.product.components.ProductImageDto;
+import com.ecommerce.website.entities.product.components.Category;
+import com.ecommerce.website.entities.product.components.ProductImage;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -16,7 +21,11 @@ public class ProductMetadataDto {
 
     private String name;
 
-    private String thumbnailUrl;
+    private ProductImageDto thumbnail;
+
+    private BrandDto brand;
+
+    private Set<Category> categories;
 
     private BigDecimal price;
 

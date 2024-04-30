@@ -1,28 +1,24 @@
 package com.ecommerce.website;
 
-import com.ecommerce.website.dtos.user.SignInResultDto;
-import com.ecommerce.website.dtos.user.UserLoginDto;
-import com.ecommerce.website.dtos.user.UserRegisterDto;
-import com.ecommerce.website.entities.product.ProductEntity;
-import com.ecommerce.website.entities.product.ProductFAQEntity;
-import com.ecommerce.website.entities.product.ProductImageEntity;
-import com.ecommerce.website.entities.user.AddressEntity;
-import com.ecommerce.website.entities.user.UserEntity;
-import com.ecommerce.website.entities.user.role.RoleEntity;
-import com.ecommerce.website.entities.user.role.ERole;
+import com.ecommerce.website.dtos.user.auth.UserLoginDto;
+import com.ecommerce.website.dtos.user.auth.UserRegisterDto;
+import com.ecommerce.website.entities.product.Product;
+import com.ecommerce.website.entities.product.components.ProductFAQ;
+import com.ecommerce.website.entities.product.components.ProductImage;
+import com.ecommerce.website.entities.user.Address;
+import com.ecommerce.website.entities.user.User;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
 
 public final class TestDataUtil {
 
     private TestDataUtil() {}
 
-    public static ProductEntity createTestProduct()
+    public static Product createTestProduct()
     {
-        return ProductEntity.builder()
+        return Product.builder()
                 .id(1L)
                 .name("product")
                 .description("product description")
@@ -36,17 +32,17 @@ public final class TestDataUtil {
                 .build();
     }
 
-    public static ProductImageEntity createTestProductImage()
+    public static ProductImage createTestProductImage()
     {
-        return ProductImageEntity.builder()
+        return ProductImage.builder()
                 .id(1L)
                 .imageUrl("imageUrl")
                 .build();
     }
 
-    public static ProductFAQEntity createTestProductFAQ()
+    public static ProductFAQ createTestProductFAQ()
     {
-        return ProductFAQEntity.builder()
+        return ProductFAQ.builder()
                 .id(1L)
                 .question("question")
                 .answer("answer")
@@ -71,10 +67,10 @@ public final class TestDataUtil {
                 .build();
     }
 
-    public static UserEntity createTestUser()
+    public static User createTestUser()
     {
 
-        return UserEntity.builder()
+        return User.builder()
                 .id(1L)
                 .email("testemail@test.com")
                 .fullName("testTester")
@@ -85,9 +81,9 @@ public final class TestDataUtil {
                 .build();
     }
 
-    public static AddressEntity createTestAddress()
+    public static Address createTestAddress()
     {
-        return AddressEntity.builder()
+        return Address.builder()
                 .id(1L)
                 .address("test address")
                 .district("test district")
@@ -96,9 +92,9 @@ public final class TestDataUtil {
                 .build();
     }
 
-    public static UserEntity createTestAdmin()
+    public static User createTestAdmin()
     {
-        return UserEntity.builder()
+        return User.builder()
                 .email("admin@admin.com")
                 .password("adminpassword")
                 .roles(new HashSet<>())

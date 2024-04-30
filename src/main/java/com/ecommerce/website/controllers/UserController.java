@@ -1,11 +1,11 @@
 package com.ecommerce.website.controllers;
 
 import com.ecommerce.website.dtos.mappers.Mapper;
-import com.ecommerce.website.dtos.user.SignInResultDto;
+import com.ecommerce.website.dtos.user.auth.SignInResultDto;
 import com.ecommerce.website.dtos.user.UserDto;
-import com.ecommerce.website.dtos.user.UserLoginDto;
-import com.ecommerce.website.dtos.user.UserRegisterDto;
-import com.ecommerce.website.entities.user.UserEntity;
+import com.ecommerce.website.dtos.user.auth.UserLoginDto;
+import com.ecommerce.website.dtos.user.auth.UserRegisterDto;
+import com.ecommerce.website.entities.user.User;
 import com.ecommerce.website.services.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +25,15 @@ public class UserController {
     @Autowired
     private UserService userService;
     @Autowired
-    private Mapper<UserEntity, UserDto> userMapper;
+    private Mapper<User, UserDto> userMapper;
     @Autowired
-    private Mapper<UserEntity, UserRegisterDto> userRegisterMapper;
+    private Mapper<User, UserRegisterDto> userRegisterMapper;
 
     @PostMapping("/auth/register")
     public ResponseEntity<UserDto> registerUser(@Valid @RequestBody UserRegisterDto userRegisterDto)
     {
-        UserEntity userEntity = userRegisterMapper.mapFrom(userRegisterDto);
-        UserEntity savedUserEntity = userService.register(userEntity);
+        User user = userRegisterMapper.mapFrom(userRegisterDto);
+        User savedUserEntity = userService.register(user);
         return new ResponseEntity<>(userMapper.mapTo(savedUserEntity), HttpStatus.CREATED);
     }
 
@@ -48,7 +48,7 @@ public class UserController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Page<UserDto>> listUsers(Pageable pageable)
     {
-        Page<UserEntity> userEntities = userService.findAll(pageable);
+        Page<User> userEntities = userService.findAll(pageable);
         return new ResponseEntity<>(userEntities.map(userMapper::mapTo), HttpStatus.OK);
     }
 
@@ -56,7 +56,7 @@ public class UserController {
     @PreAuthorize("hasRole('ROLE_USER') and @authComponent.hasPermission(#id) or hasRole('ROLE_ADMIN')")
     public ResponseEntity<UserDto> getUser(@PathVariable("id") Long id)
     {
-        Optional<UserEntity> foundUser = userService.findOne(id);
+        Optional<User> foundUser = userService.findOne(id);
         return foundUser.map(userEntity -> {
             UserDto userDto = userMapper.mapTo(userEntity);
             return new ResponseEntity<>(userDto, HttpStatus.OK);
@@ -70,8 +70,8 @@ public class UserController {
         if (!userService.isExists(id)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         userDto.setId(id);
-        UserEntity userEntity = userMapper.mapFrom(userDto);
-        UserEntity savedUserEntity = userService.update(userEntity);
+        User user = userMapper.mapFrom(userDto);
+        User savedUserEntity = userService.update(user);
         return new ResponseEntity<>(userMapper.mapTo(savedUserEntity), HttpStatus.OK);
     }
 

@@ -1,8 +1,8 @@
 package com.ecommerce.website.services.user;
 
-import com.ecommerce.website.dtos.user.SignInResultDto;
-import com.ecommerce.website.dtos.user.UserLoginDto;
-import com.ecommerce.website.entities.user.UserEntity;
+import com.ecommerce.website.dtos.user.auth.SignInResultDto;
+import com.ecommerce.website.dtos.user.auth.UserLoginDto;
+import com.ecommerce.website.entities.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -10,15 +10,15 @@ import java.util.Optional;
 
 public interface UserService {
 
-    UserEntity register(UserEntity entity);
+    User register(User entity);
 
     SignInResultDto login(UserLoginDto userLoginDto);
 
-    UserEntity update(UserEntity entity);
+    User update(User entity);
 
-    Page<UserEntity> findAll(Pageable pageable);
+    Page<User> findAll(Pageable pageable);
 
-    Optional<UserEntity> findOne(Long id);
+    Optional<User> findOne(Long id);
 
     boolean isExists(Long id);
 

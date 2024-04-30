@@ -1,4 +1,4 @@
-package com.ecommerce.website.dtos.user;
+package com.ecommerce.website.dtos.user.auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -13,11 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserRegisterDto {
-
-    @NotNull
-    @NotBlank
-    private String fullName;
+public class UserLoginDto {
 
     @NotNull
     @NotBlank
@@ -28,13 +24,7 @@ public class UserRegisterDto {
     @Pattern(
             regexp = "^[a-zA-Z0-9@$!%?&]{8,30}$",
             message = "Password must be between 8 and 30 characters long " +
-                    "and only contain letters, numbers, and special characters"
+                      "and only contain letters, numbers, and special characters"
     )
     private String password;
-
-    @Pattern(
-            regexp = "^\\+?[1-9]\\d{1,14}$",
-            message = "Invalid phone number format"
-    )
-    private String phoneNumber;
 }
