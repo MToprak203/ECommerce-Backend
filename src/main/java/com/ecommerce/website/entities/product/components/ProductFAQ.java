@@ -16,8 +16,8 @@ import lombok.NoArgsConstructor;
 public class ProductFAQ {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name="id", nullable=false, updatable=false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
     private String question;

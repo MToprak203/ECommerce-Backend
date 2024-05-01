@@ -29,33 +29,27 @@ public class UserController {
     @Autowired
     private Mapper<User, UserRegisterDto> userRegisterMapper;
 
-    @PostMapping("/auth/register")
-    public ResponseEntity<UserDto> registerUser(@Valid @RequestBody UserRegisterDto userRegisterDto)
-    {
+    @PostMapping("/public/auth/register")
+    public ResponseEntity<UserDto> registerUser(@Valid @RequestBody UserRegisterDto userRegisterDto) {
         User user = userRegisterMapper.mapFrom(userRegisterDto);
         User savedUserEntity = userService.register(user);
         return new ResponseEntity<>(userMapper.mapTo(savedUserEntity), HttpStatus.CREATED);
     }
 
-    @PostMapping("/auth/login")
-    public ResponseEntity<SignInResultDto> loginUser(@Valid @RequestBody UserLoginDto userLoginDto)
-    {
+    @PostMapping("/public/auth/login")
+    public ResponseEntity<SignInResultDto> loginUser(@Valid @RequestBody UserLoginDto userLoginDto) {
         SignInResultDto resultDto = userService.login(userLoginDto);
         return new ResponseEntity<>(resultDto, HttpStatus.OK);
     }
 
-    @GetMapping("/admin/users")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Page<UserDto>> listUsers(Pageable pageable)
-    {
+    @GetMapping("/public/users")
+    public ResponseEntity<Page<UserDto>> listUsers(Pageable pageable) {
         Page<User> userEntities = userService.findAll(pageable);
         return new ResponseEntity<>(userEntities.map(userMapper::mapTo), HttpStatus.OK);
     }
 
-    @GetMapping("/users/{id}")
-    @PreAuthorize("hasRole('ROLE_USER') and @authComponent.hasPermission(#id) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<UserDto> getUser(@PathVariable("id") Long id)
-    {
+    @GetMapping("/public/users/{id}")
+    public ResponseEntity<UserDto> getUser(@PathVariable("id") Long id) {
         Optional<User> foundUser = userService.findOne(id);
         return foundUser.map(userEntity -> {
             UserDto userDto = userMapper.mapTo(userEntity);
@@ -63,10 +57,9 @@ public class UserController {
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PutMapping("/users/{id}")
-    @PreAuthorize("hasRole('ROLE_USER') and @authComponent.hasPermission(#id) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<UserDto> updateUser(@PathVariable("id") Long id, @Valid @RequestBody UserDto userDto)
-    {
+    @PutMapping("/private/users/{id}")
+    @PreAuthorize("@authComponent.hasPermissionForEditUsers(#id)")
+    public ResponseEntity<UserDto> updateUser(@PathVariable("id") Long id, @Valid @RequestBody UserDto userDto) {
         if (!userService.isExists(id)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         userDto.setId(id);
@@ -75,10 +68,9 @@ public class UserController {
         return new ResponseEntity<>(userMapper.mapTo(savedUserEntity), HttpStatus.OK);
     }
 
-    @DeleteMapping("/users/{id}")
-    @PreAuthorize("hasRole('ROLE_USER') and @authComponent.hasPermission(#id) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity deleteUser(@PathVariable("id") Long id)
-    {
+    @DeleteMapping("/private/users/{id}")
+    @PreAuthorize("@authComponent.hasPermissionForEditUsers(#id)")
+    public ResponseEntity deleteUser(@PathVariable("id") Long id) {
         userService.delete(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

@@ -1,7 +1,8 @@
 package com.ecommerce.website.entities.user;
 
 import com.ecommerce.website.entities.product.Product;
-import com.ecommerce.website.entities.user.role.Role;
+import com.ecommerce.website.entities.user.components.Address;
+import com.ecommerce.website.entities.user.components.role.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,13 +19,13 @@ import java.util.Set;
 @Entity
 @Table(name = "Users",
         uniqueConstraints = {
-            @UniqueConstraint(columnNames = "email")
+                @UniqueConstraint(columnNames = "email")
         }
 )
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="id", nullable=false, updatable=false)
+    @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
     private String email;

@@ -3,8 +3,7 @@ package com.ecommerce.website;
 import com.ecommerce.website.dtos.user.auth.SignInResultDto;
 import com.ecommerce.website.dtos.user.auth.UserLoginDto;
 import com.ecommerce.website.entities.user.User;
-import com.ecommerce.website.entities.user.role.ERole;
-import com.ecommerce.website.entities.user.role.Role;
+import com.ecommerce.website.entities.user.components.role.Role;
 import com.ecommerce.website.repositories.user.components.RoleRepository;
 import com.ecommerce.website.repositories.user.UserRepository;
 import com.ecommerce.website.services.user.UserService;
@@ -53,7 +52,7 @@ public class UserLoginUtil {
     public SignInResultDto TestAdminLogin()
     {
         Set<Role> roles = new HashSet<>();
-        roles.add(roleRepository.findByName(ERole.ROLE_ADMIN));
+        roles.add(roleRepository.findByName("ROLE_ADMIN"));
 
         User admin = User.builder()
                 .email(adminEmail)

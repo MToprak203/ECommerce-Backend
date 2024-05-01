@@ -3,7 +3,6 @@ package com.ecommerce.website.services.user;
 import com.ecommerce.website.dtos.user.auth.SignInResultDto;
 import com.ecommerce.website.dtos.user.auth.UserLoginDto;
 import com.ecommerce.website.entities.user.User;
-import com.ecommerce.website.entities.user.role.ERole;
 import com.ecommerce.website.exception.user.UserAlreadyExistsException;
 import com.ecommerce.website.repositories.user.components.RoleRepository;
 import com.ecommerce.website.repositories.user.UserRepository;
@@ -26,7 +25,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -51,7 +50,7 @@ public class UserServiceImpl implements UserService{
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         user.setRoles(new HashSet<>());
-        user.getRoles().add(roleRepository.findByName(ERole.ROLE_USER));
+        user.getRoles().add(roleRepository.findByName("ROLE_USER"));
 
         return userRepository.save(user);
     }

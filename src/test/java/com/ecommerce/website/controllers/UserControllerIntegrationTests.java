@@ -8,7 +8,7 @@ import com.ecommerce.website.dtos.mappers.Mapper;
 import com.ecommerce.website.dtos.user.UserDto;
 import com.ecommerce.website.dtos.user.auth.UserLoginDto;
 import com.ecommerce.website.dtos.user.auth.UserRegisterDto;
-import com.ecommerce.website.entities.user.Address;
+import com.ecommerce.website.entities.user.components.Address;
 import com.ecommerce.website.entities.user.User;
 import com.ecommerce.website.services.user.UserService;
 import org.junit.jupiter.api.Test;

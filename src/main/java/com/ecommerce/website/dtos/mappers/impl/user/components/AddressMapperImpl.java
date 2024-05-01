@@ -2,7 +2,7 @@ package com.ecommerce.website.dtos.mappers.impl.user.components;
 
 import com.ecommerce.website.dtos.mappers.Mapper;
 import com.ecommerce.website.dtos.user.components.AddressDto;
-import com.ecommerce.website.entities.user.Address;
+import com.ecommerce.website.entities.user.components.Address;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 

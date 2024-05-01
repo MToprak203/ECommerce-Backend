@@ -36,8 +36,6 @@ public class ProductDto {
     @NotBlank(message = "Product description can not be empty.")
     private String description;
 
-    private String thumbnailUrl;
-
     @PositiveOrZero(message = "Product price can not be negative.")
     private BigDecimal price;
 
@@ -49,8 +47,6 @@ public class ProductDto {
     @NotNull
     private UserMetadataDto user;
 
-    @NotNull(message = "Categories can not be empty.")
-    @NotBlank(message = "Product description can not be empty.")
     private Set<Category> categories;
 
     private List<ProductImageDto> images;

@@ -1,10 +1,10 @@
-package com.ecommerce.website.seeds;
+package com.ecommerce.website.seeds.admin;
 
 import com.ecommerce.website.entities.user.User;
-import com.ecommerce.website.entities.user.role.ERole;
-import com.ecommerce.website.entities.user.role.Role;
+import com.ecommerce.website.entities.user.components.role.Role;
 import com.ecommerce.website.repositories.user.components.RoleRepository;
 import com.ecommerce.website.repositories.user.UserRepository;
+import com.ecommerce.website.seeds.role.RolesSeededEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -38,10 +38,11 @@ public class AdminUserSeeder {
 
     @EventListener
     @Transactional
-    public void LoadAdminUser(ContextRefreshedEvent event)
-    {
+    public void LoadAdminUser(RolesSeededEvent event) {
+        if(userRepository.existsByEmail(adminEmail)) return;
+
         Set<Role> roles = new HashSet<>();
-        roles.add(roleRepository.findByName(ERole.ROLE_ADMIN));
+        roles.add(roleRepository.findByName("ROLE_ADMIN"));
 
         User admin = User.builder()
                 .fullName(adminName)

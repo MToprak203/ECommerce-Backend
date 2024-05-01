@@ -1,5 +1,14 @@
 package com.ecommerce.website.dtos.product.components;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class BrandDto {
     private Long id;
 

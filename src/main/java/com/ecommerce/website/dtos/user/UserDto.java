@@ -1,7 +1,7 @@
 package com.ecommerce.website.dtos.user;
 
 import com.ecommerce.website.dtos.user.components.AddressDto;
-import com.ecommerce.website.entities.user.role.Role;
+import com.ecommerce.website.entities.user.components.role.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

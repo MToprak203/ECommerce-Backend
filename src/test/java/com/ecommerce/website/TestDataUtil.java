@@ -5,7 +5,7 @@ import com.ecommerce.website.dtos.user.auth.UserRegisterDto;
 import com.ecommerce.website.entities.product.Product;
 import com.ecommerce.website.entities.product.components.ProductFAQ;
 import com.ecommerce.website.entities.product.components.ProductImage;
-import com.ecommerce.website.entities.user.Address;
+import com.ecommerce.website.entities.user.components.Address;
 import com.ecommerce.website.entities.user.User;
 
 import java.math.BigDecimal;

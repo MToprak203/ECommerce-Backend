@@ -24,7 +24,7 @@ public class UserLoginDto {
     @Pattern(
             regexp = "^[a-zA-Z0-9@$!%?&]{8,30}$",
             message = "Password must be between 8 and 30 characters long " +
-                      "and only contain letters, numbers, and special characters"
+                    "and only contain letters, numbers, and special characters"
     )
     private String password;
 }

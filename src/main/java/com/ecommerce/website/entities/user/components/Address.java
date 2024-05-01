@@ -1,5 +1,6 @@
-package com.ecommerce.website.entities.user;
+package com.ecommerce.website.entities.user.components;
 
+import com.ecommerce.website.entities.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,8 +16,8 @@ import lombok.NoArgsConstructor;
 public class Address {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name="id", nullable=false, updatable=false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
     private String address;

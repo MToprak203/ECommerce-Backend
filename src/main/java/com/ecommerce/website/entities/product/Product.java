@@ -25,8 +25,8 @@ import java.util.Set;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name="id", nullable=false, updatable=false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
     @Column(nullable = false)
@@ -34,12 +34,16 @@ public class Product {
 
     private String description;
 
-    @Column(precision=10, scale=2, nullable = false)
+    @Column(precision = 10, scale = 2, nullable = false)
     private BigDecimal price;
 
     @PositiveOrZero(message = "Product stock can not be negative.")
     @Column(nullable = false)
     private Integer stock;
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "product_categories",
@@ -49,11 +53,7 @@ public class Product {
     private Set<Category> categories;
 
     @ManyToOne
-    @JoinColumn(name = "brand_id")
-    private Brand brand;
-
-    @ManyToOne
-    @JoinColumn(name = "seller_id")
+    @JoinColumn(name = "seller_id", nullable = false, updatable = false)
     private User user;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)

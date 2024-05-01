@@ -1,6 +1,7 @@
 package com.ecommerce.website.exception;
 
 import com.ecommerce.website.exception.product.ProductExistsException;
+import com.ecommerce.website.exception.product.components.CategoryExistsException;
 import com.ecommerce.website.exception.user.UserAlreadyExistsException;
 import com.ecommerce.website.exception.user.UserNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -34,24 +35,25 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({AccessDeniedException.class})
-    public ResponseEntity<Map<String, String>> handleAccessDeniedException(RuntimeException ex)
-    {
+    public ResponseEntity<Map<String, String>> handleAccessDeniedException(RuntimeException ex) {
         Map<String, String> errors = new HashMap<>();
         errors.put("errorMessage", ex.getMessage());
         return new ResponseEntity<>(errors, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<Map<String, String>> handleIncorrectCredentialsExpections()
-    {
+    public ResponseEntity<Map<String, String>> handleIncorrectCredentialsExpections() {
         Map<String, String> errors = new HashMap<>();
         errors.put("errorMessage", "Incorrect email or password!");
         return new ResponseEntity<>(errors, HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler({UserAlreadyExistsException.class, ProductExistsException.class})
-    public ResponseEntity<Map<String, String>> handleRegisterExceptions(RuntimeException ex)
-    {
+    @ExceptionHandler({
+            UserAlreadyExistsException.class,
+            ProductExistsException.class,
+            CategoryExistsException.class
+    })
+    public ResponseEntity<Map<String, String>> handleRegisterExceptions(RuntimeException ex) {
         Map<String, String> errors = new HashMap<>();
         errors.put("errorMessage", ex.getMessage());
         return new ResponseEntity<>(errors, HttpStatus.CONFLICT);

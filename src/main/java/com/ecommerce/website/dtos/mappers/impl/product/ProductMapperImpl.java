@@ -42,8 +42,7 @@ public class ProductMapperImpl extends Mapper<Product, ProductDto> {
         mapped.setBrand(brandMapper.mapTo(product.getBrand()));
         mapped.setUser(userMetadataMapper.mapTo(product.getUser()));
 
-        if (product.getImages() != null)
-        {
+        if (product.getImages() != null) {
             mapped.setImages(product
                     .getImages()
                     .stream()
@@ -52,8 +51,7 @@ public class ProductMapperImpl extends Mapper<Product, ProductDto> {
             );
         }
 
-        if (product.getFaqs() != null)
-        {
+        if (product.getFaqs() != null) {
             mapped.setFaqs(product
                     .getFaqs()
                     .stream()
@@ -71,8 +69,7 @@ public class ProductMapperImpl extends Mapper<Product, ProductDto> {
         mapped.setBrand(brandMapper.mapFrom(productDto.getBrand()));
         mapped.setUser(userMetadataMapper.mapFrom(productDto.getUser()));
 
-        if (productDto.getImages() != null)
-        {
+        if (productDto.getImages() != null) {
             mapped.setImages(productDto
                     .getImages()
                     .stream()
@@ -83,8 +80,7 @@ public class ProductMapperImpl extends Mapper<Product, ProductDto> {
             mapped.getImages().forEach((i) -> i.setProduct(mapped));
         }
 
-        if (productDto.getFaqs() != null)
-        {
+        if (productDto.getFaqs() != null) {
             mapped.setFaqs(productDto
                     .getFaqs()
                     .stream()

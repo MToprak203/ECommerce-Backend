@@ -23,8 +23,6 @@ import java.util.List;
 @Configuration
 @EnableMethodSecurity
 public class WebSecurityConfig {
-    private final List<String> allowedPaths = List.of("/auth/**", "/products/**");
-
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
@@ -62,7 +60,7 @@ public class WebSecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers(allowedPaths.toArray(new String[0])).permitAll()
+                        auth.requestMatchers("/public/**").permitAll()
                                 .anyRequest().authenticated()
                 );
 
